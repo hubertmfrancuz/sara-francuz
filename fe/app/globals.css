@@ -8,19 +8,54 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Font families */
+  --font-herbik: var(--font-herbik);
+  --font-cutive: var(--font-cutive-mono);
+
+  /* Font sizes - Herbik */
+  --font-size-herbik-sm: 13px;      /* 13px */
+  --font-size-herbik-base: 18px;    /* 18px */
+  --font-size-herbik-lg: 21px;      /* 21px */
+  --font-size-herbik-xl: 28px;      /* 28px */
+
+  /* Font sizes - Cutive Mono */
+  --font-size-cutive: 13px;         /* 13px */
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-herbik), sans-serif;
+}
+
+/* Font family utilities */
+.font-herbik {
+  font-family: var(--font-herbik), sans-serif;
+}
+
+.font-cutive {
+  font-family: var(--font-cutive), monospace;
+}
+
+/* Font size utilities - Herbik */
+.text-herbik-sm {
+  font-size: var(--font-size-herbik-sm); /* 13px */
+}
+
+.text-herbik-base {
+  font-size: var(--font-size-herbik-base); /* 18px */
+}
+
+.text-herbik-lg {
+  font-size: var(--font-size-herbik-lg); /* 21px */
+}
+
+.text-herbik-xl {
+  font-size: var(--font-size-herbik-xl); /* 28px */
+}
+
+/* Font size utility - Cutive Mono */
+.text-cutive {
+  font-size: var(--font-size-cutive); /* 13px */
 }
