@@ -32,3 +32,10 @@ export interface HomePage {
   contentBlocks?: ContentBlock[]
   seo?: SEO
 }
+
+export interface Collection {
+  title: string
+  slug: {
+    current: string
+  }
+}

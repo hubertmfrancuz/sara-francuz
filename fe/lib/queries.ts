@@ -26,3 +26,10 @@ export const homePageQuery = groq`
     }
   }
 `
+
+export const collectionsQuery = groq`
+  *[_type == "collection"] | order(order asc) {
+    title,
+    slug
+  }
+`

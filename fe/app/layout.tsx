@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import {herbik, cutiveMono} from "@/lib/fonts";
+import {client} from "@/lib/sanity";
+import {collectionsQuery} from "@/lib/queries";
+import {Collection} from "@/lib/types";
+import Header from "./components/Header";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -7,17 +11,20 @@ export const metadata: Metadata = {
   description: "Designer Portfolio",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const collections: Collection[] = await client.fetch(collectionsQuery);
+
   return (
     <html lang="en">
       <body
         className={`${herbik.variable} ${cutiveMono.variable} antialiased`}
       >
-        {children}
+        <Header collections={collections} />
+        <main className="pt-[45px]">{children}</main>
       </body>
     </html>
   );
