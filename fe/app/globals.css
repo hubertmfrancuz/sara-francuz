@@ -9,10 +9,6 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
-  /* Font families */
-  --font-herbik: var(--font-herbik);
-  --font-cutive: var(--font-cutive-mono);
-
   /* Font sizes - Herbik */
   --font-size-herbik-sm: 13px;      /* 13px */
   --font-size-herbik-base: 18px;    /* 18px */
@@ -68,7 +64,7 @@ body {
 }
 
 .font-cutive {
-  font-family: var(--font-cutive), monospace;
+  font-family: var(--font-cutive-mono), monospace;
 }
 
 /* Font size utilities - Herbik */
