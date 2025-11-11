@@ -42,6 +42,18 @@
   --color-graphite-700: #404142;
   --color-graphite-800: #202121;
   --color-graphite-900: #060707;
+
+  /* Spacing System */
+  --spacing-100: 4px;
+  --spacing-200: 8px;
+  --spacing-300: 12px;
+  --spacing-400: 16px;
+  --spacing-500: 24px;
+  --spacing-600: 32px;
+  --spacing-700: 40px;
+  --spacing-800: 48px;
+  --spacing-900: 56px;
+  --spacing-1000: 64px;
 }
 
 body {
