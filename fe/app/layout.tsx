@@ -3,7 +3,7 @@ import {herbik, cutiveMono} from "@/lib/fonts";
 import {client} from "@/lib/sanity";
 import {collectionsQuery} from "@/lib/queries";
 import {Collection} from "@/lib/types";
-import Header from "./components/Header";
+import ClientLayout from "./components/ClientLayout";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -23,8 +23,9 @@ export default async function RootLayout({
       <body
         className={`${herbik.variable} ${cutiveMono.variable} antialiased`}
       >
-        <Header collections={collections} />
-        <main className="pt-[45px]">{children}</main>
+        <ClientLayout collections={collections}>
+          {children}
+        </ClientLayout>
       </body>
     </html>
   );

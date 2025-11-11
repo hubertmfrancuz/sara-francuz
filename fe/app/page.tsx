@@ -37,10 +37,10 @@ export default async function Home() {
             priority
           />
           {data.hero.linkUrl && data.hero.linkText && (
-            <div className='absolute inset-0 flex items-center justify-center'>
+            <div className='absolute bottom-400 left-400 border-l border-graphite-100 flex items-center justify-center'>
               <a
                 href={data.hero.linkUrl}
-                className='bg-white px-8 py-4 text-lg text-black transition-all hover:bg-black hover:text-white'
+                className='pl-200 text-xl italic text-white transition-all hover:bg-black hover:text-white'
               >
                 {data.hero.linkText}
               </a>
