@@ -21,6 +21,27 @@
 
   /* Font sizes - Cutive Mono */
   --font-size-cutive: 13px;         /* 13px */
+
+  /* Color System - Yellow Scale */
+  --color-yellow-100: #FEFEEC;
+  --color-yellow-200: #F9F8F1;
+  --color-yellow-300: #F3F1E2;
+  --color-yellow-400: #EEEAD3;
+  --color-yellow-500: #E8E3C5;
+  --color-yellow-600: #AEAA94;
+  --color-yellow-700: #747263;
+  --color-yellow-800: #3A3931;
+
+  /* Color System - Graphite Scale */
+  --color-graphite-100: #F9F9F9;
+  --color-graphite-200: #DFE0E0;
+  --color-graphite-300: #BFC1C1;
+  --color-graphite-400: #9FA1A3;
+  --color-graphite-500: #7F8284;
+  --color-graphite-600: #5F6263;
+  --color-graphite-700: #404142;
+  --color-graphite-800: #202121;
+  --color-graphite-900: #060707;
 }
 
 body {
