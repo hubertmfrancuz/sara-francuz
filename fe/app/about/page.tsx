@@ -1,4 +1,4 @@
-import Image from "next/image"
+import ImageWithFade from "@/app/components/ImageWithFade"
 import { client } from "@/lib/sanity"
 import { urlFor } from "@/lib/sanity"
 import { PortableText } from "@portabletext/react"
@@ -22,7 +22,9 @@ const aboutPageQuery = `*[_type == "aboutPage"][0] {
   sectionTitle,
   content,
   image {
-    asset,
+    asset-> {
+      ...
+    },
     alt
   },
   contactEmail,
@@ -93,7 +95,7 @@ export default async function AboutPage() {
           {/* Right Column: Image (3 columns) */}
           {aboutData.image && (
             <div className='relative aspect-[3/4] w-full md:col-span-3 md:h-auto'>
-              <Image
+              <ImageWithFade
                 src={urlFor(aboutData.image).url()}
                 alt={aboutData.image.alt || aboutData.title}
                 fill

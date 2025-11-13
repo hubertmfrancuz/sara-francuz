@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import ViewTransitionLink from "@/app/components/ViewTransitionLink"
-import Image from "next/image"
+import ImageWithFade from "@/app/components/ImageWithFade"
 import { urlFor } from "@/lib/sanity"
 import { Product } from "@/lib/types"
 import { useCart } from "@/app/context/CartContext"
@@ -12,7 +12,10 @@ interface ProductClientProps {
   relatedProducts: Product[]
 }
 
-export default function ProductClient({ product, relatedProducts }: ProductClientProps) {
+export default function ProductClient({
+  product,
+  relatedProducts,
+}: ProductClientProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const { addItem, openCart } = useCart()
 
@@ -53,16 +56,16 @@ export default function ProductClient({ product, relatedProducts }: ProductClien
         </div>
 
         {/* Mobile: stacked, Desktop: 5-column grid (3 + 2) */}
-        <div className='px-400 pb-400 flex flex-col gap-400 md:grid md:grid-cols-5 md:gap-400 md:pb-1000 md:items-start'>
+        <div className='pb-400 flex flex-col gap-400 md:grid md:grid-cols-5 md:gap-400 md:pb-1000 md:items-start'>
           {/* Image Gallery - First on mobile, Left 3 columns on desktop */}
-          <div className='relative order-1 md:col-span-3'>
+          <div className='px-400 relative order-1 md:col-span-3'>
             {/* Mobile: Image Slider */}
             <div
               className='relative aspect-3/4 w-full cursor-pointer md:hidden'
               onClick={handleNextImage}
             >
               {product.images && product.images[currentImageIndex] && (
-                <Image
+                <ImageWithFade
                   src={urlFor(product.images[currentImageIndex]).url()}
                   alt={product.images[currentImageIndex].alt || product.title}
                   fill
@@ -84,7 +87,7 @@ export default function ProductClient({ product, relatedProducts }: ProductClien
               {product.images &&
                 product.images.map((image, index) => (
                   <div key={index} className='relative aspect-3/4 w-full'>
-                    <Image
+                    <ImageWithFade
                       src={urlFor(image).url()}
                       alt={image.alt || product.title}
                       fill
@@ -97,7 +100,7 @@ export default function ProductClient({ product, relatedProducts }: ProductClien
           </div>
 
           {/* Product Info Container - Second on mobile, Right 2 columns on desktop (sticky) */}
-          <div className='bg-yellow-300 p-500 order-2 md:col-span-2 md:sticky md:top-[108px] md:h-fit'>
+          <div className='md:px-400 bg-yellow-300 p-500 order-2 md:col-span-2 md:sticky md:top-[108px] md:h-fit'>
             {/* Title and Price */}
             <div className='flex items-start justify-between'>
               <h1 className='text-herbik-xl italic'>{product.title}</h1>
@@ -165,9 +168,11 @@ export default function ProductClient({ product, relatedProducts }: ProductClien
                   {/* Product Image */}
                   <div className='relative mb-200 aspect-3/4 w-full overflow-hidden bg-gray-200'>
                     {relatedProduct.images && relatedProduct.images[0] && (
-                      <Image
+                      <ImageWithFade
                         src={urlFor(relatedProduct.images[0]).url()}
-                        alt={relatedProduct.images[0].alt || relatedProduct.title}
+                        alt={
+                          relatedProduct.images[0].alt || relatedProduct.title
+                        }
                         fill
                         className='object-cover transition-transform duration-300 group-hover:scale-105'
                       />
@@ -175,7 +180,9 @@ export default function ProductClient({ product, relatedProducts }: ProductClien
                   </div>
 
                   {/* Product Info */}
-                  <h3 className='text-cutive font-cutive'>{relatedProduct.title}</h3>
+                  <h3 className='text-cutive font-cutive'>
+                    {relatedProduct.title}
+                  </h3>
                   <p className='text-cutive font-cutive'>
                     €{relatedProduct.price.toFixed(2)} EUR
                   </p>
