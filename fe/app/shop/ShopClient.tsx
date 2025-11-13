@@ -23,7 +23,7 @@ export default function ShopClient({
   const [view, setView] = useState<"large" | "small">("small")
 
   // Custom easing
-  const customEase = [0.65, 0.05, 0.36, 1]
+  const customEase = [0.65, 0.05, 0.36, 1] as [number, number, number, number]
 
   const handleCollectionFilter = (slug: string | null) => {
     if (slug) {

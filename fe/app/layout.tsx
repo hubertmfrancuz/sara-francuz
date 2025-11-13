@@ -12,12 +12,21 @@ export const metadata: Metadata = {
   description: "Designer Portfolio",
 };
 
+// Revalidate collections every 24 hours (they rarely change)
+export const revalidate = 86400
+
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const collections: Collection[] = await client.fetch(collectionsQuery);
+  const collections: Collection[] = await client.fetch(
+    collectionsQuery,
+    {},
+    {
+      next: { revalidate: 86400, tags: ['collections'] }
+    }
+  );
 
   return (
     <html lang="en">

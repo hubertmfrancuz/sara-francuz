@@ -4,8 +4,17 @@ import { client, urlFor } from "@/lib/sanity"
 import { homePageQuery } from "@/lib/queries"
 import { HomePage } from "@/lib/types"
 
+// Revalidate every hour, or instantly via webhook
+export const revalidate = 3600
+
 export async function generateMetadata(): Promise<Metadata> {
-  const data: HomePage = await client.fetch(homePageQuery)
+  const data: HomePage = await client.fetch(
+    homePageQuery,
+    {},
+    {
+      next: { revalidate: 3600, tags: ['home-page'] }
+    }
+  )
 
   return {
     title: data?.seo?.metaTitle || "Sara Francuz",
@@ -14,7 +23,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const data: HomePage = await client.fetch(homePageQuery)
+  const data: HomePage = await client.fetch(
+    homePageQuery,
+    {},
+    {
+      next: { revalidate: 3600, tags: ['home-page'] }
+    }
+  )
 
   if (!data) {
     return (

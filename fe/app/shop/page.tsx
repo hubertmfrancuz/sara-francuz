@@ -20,11 +20,29 @@ export default async function ShopPage({
 
   // Fetch products (all or filtered by collection)
   const products: Product[] = collectionSlug
-    ? await client.fetch(productsByCollectionQuery, {collectionSlug})
-    : await client.fetch(productsQuery)
+    ? await client.fetch(
+        productsByCollectionQuery,
+        {collectionSlug},
+        {
+          next: { revalidate: 3600, tags: ['products', `collection-${collectionSlug}`] }
+        }
+      )
+    : await client.fetch(
+        productsQuery,
+        {},
+        {
+          next: { revalidate: 3600, tags: ['products'] }
+        }
+      )
 
   // Fetch collections with product counts
-  const {collections} = await client.fetch(collectionProductCountsQuery)
+  const {collections} = await client.fetch(
+    collectionProductCountsQuery,
+    {},
+    {
+      next: { revalidate: 3600, tags: ['collections'] }
+    }
+  )
 
   return (
     <ShopClient

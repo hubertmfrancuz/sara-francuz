@@ -9,7 +9,7 @@ interface LoadingScreenProps {
 
 export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
   const [isVisible, setIsVisible] = useState(true)
-  const customEase = [0.77, 0, 0.18, 1]
+  const customEase = [0.77, 0, 0.18, 1] as [number, number, number, number]
 
   useEffect(() => {
     // Hold initial state for 1.5s, then start transition
