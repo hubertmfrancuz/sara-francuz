@@ -92,62 +92,6 @@ export default function Menu({ isOpen, onClose, collections }: MenuProps) {
                   transition={{ duration: 0.5, delay: 0.6, ease: customEase }}
                   className='absolute right-0 top-0 w-[1px] bg-graphite-900'
                 />
-                {/* Collections with Dropdown */}
-                <div className='border-b border-graphite-900'>
-                  <button
-                    onClick={() => setIsCollectionsOpen(!isCollectionsOpen)}
-                    className='w-full py-500 text-center text-herbik-xl italic cursor-pointer'
-                  >
-                    Collections
-                  </button>
-                  <AnimatePresence>
-                    {isCollectionsOpen && collections.length > 0 && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.5, ease: customEase }}
-                        style={{ overflow: "hidden" }}
-                        className='pb-400'
-                      >
-                        {collections.map((collection, index) => (
-                          <motion.div
-                            key={collection.slug.current}
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{
-                              duration: 0.4,
-                              delay: index * 0.05,
-                              ease: customEase,
-                            }}
-                          >
-                            <ViewTransitionLink
-                              href={`/collections/${collection.slug.current}`}
-                              className='block py-200 text-center text-herbik-base'
-                            >
-                              {collection.title}
-                            </ViewTransitionLink>
-                          </motion.div>
-                        ))}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-
-                {/* Projects */}
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.25, ease: customEase }}
-                >
-                  <ViewTransitionLink
-                    href='/projects'
-                    className='border-b border-graphite-900 py-500 text-center text-herbik-xl italic block'
-                  >
-                    Projects
-                  </ViewTransitionLink>
-                </motion.div>
-
                 {/* Shop */}
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
@@ -157,6 +101,7 @@ export default function Menu({ isOpen, onClose, collections }: MenuProps) {
                   <ViewTransitionLink
                     href='/shop'
                     className='border-b border-graphite-900 py-500 text-center text-herbik-xl italic block'
+                    onClick={onClose}
                   >
                     Shop
                   </ViewTransitionLink>
@@ -171,6 +116,7 @@ export default function Menu({ isOpen, onClose, collections }: MenuProps) {
                   <ViewTransitionLink
                     href='/about'
                     className='border-b border-graphite-900 py-500 text-center text-herbik-xl italic block'
+                    onClick={onClose}
                   >
                     About
                   </ViewTransitionLink>
@@ -185,6 +131,7 @@ export default function Menu({ isOpen, onClose, collections }: MenuProps) {
                   <ViewTransitionLink
                     href='/faq'
                     className='border-b border-graphite-900 py-500 text-center text-herbik-xl italic block'
+                    onClick={onClose}
                   >
                     FAQ
                   </ViewTransitionLink>

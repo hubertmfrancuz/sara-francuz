@@ -5,7 +5,9 @@ export const homePageQuery = groq`
     title,
     hero {
       image {
-        asset->,
+        asset-> {
+          ...
+        },
         alt
       },
       linkUrl,
@@ -15,7 +17,9 @@ export const homePageQuery = groq`
       title,
       description,
       image {
-        asset->,
+        asset-> {
+          ...
+        },
       },
       linkUrl,
       linkText
@@ -41,7 +45,9 @@ export const productsQuery = groq`
     handle,
     price,
     images[] {
-      asset->,
+      asset-> {
+        ...
+      },
       alt
     },
     collection-> {
@@ -58,7 +64,9 @@ export const productsByCollectionQuery = groq`
     handle,
     price,
     images[] {
-      asset->,
+      asset-> {
+        ...
+      },
       alt
     },
     collection-> {
@@ -75,7 +83,9 @@ export const productQuery = groq`
     handle,
     price,
     images[] {
-      asset->,
+      asset-> {
+        ...
+      },
       alt
     },
     collection-> {
@@ -97,7 +107,9 @@ export const relatedProductsQuery = groq`
     handle,
     price,
     images[] {
-      asset->,
+      asset-> {
+        ...
+      },
       alt
     }
   }

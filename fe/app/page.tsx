@@ -1,4 +1,4 @@
-import Image from "next/image"
+import ImageWithFade from "@/app/components/ImageWithFade"
 import { Metadata } from "next"
 import { client, urlFor } from "@/lib/sanity"
 import { homePageQuery } from "@/lib/queries"
@@ -29,7 +29,7 @@ export default async function Home() {
       {/* Hero Section */}
       {data.hero && data.hero.image && (
         <section className='relative h-screen w-full'>
-          <Image
+          <ImageWithFade
             src={urlFor(data.hero.image).url()}
             alt={data.hero.alt || data.hero.image.alt || "Hero image"}
             fill
@@ -57,7 +57,7 @@ export default async function Home() {
               <div key={index} className='group'>
                 {block.image && (
                   <div className='relative mb-4 aspect-square w-full overflow-hidden'>
-                    <Image
+                    <ImageWithFade
                       src={urlFor(block.image).url()}
                       alt={block.title}
                       fill
