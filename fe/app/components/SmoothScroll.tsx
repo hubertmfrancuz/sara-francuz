@@ -7,7 +7,7 @@ export default function SmoothScroll() {
   useEffect(() => {
     // Initialize Lenis with subtle settings
     const lenis = new Lenis({
-      duration: 0.5, // Subtle: lower values = faster/less smooth, higher = slower/more smooth
+      duration: 0.8, // Subtle: lower values = faster/less smooth, higher = slower/more smooth
       easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
       orientation: "vertical", // Vertical scrolling
       gestureOrientation: "vertical",

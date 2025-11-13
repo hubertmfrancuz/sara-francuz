@@ -51,7 +51,7 @@ export default async function Home() {
 
       {/* Content Blocks */}
       {data.contentBlocks && data.contentBlocks.length > 0 && (
-        <section className='mx-auto max-w-7xl px-6 py-24'>
+        <section className='mx-auto max-w-2xl md:max-w-[1400px] px-6 py-24'>
           <div className='grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3'>
             {data.contentBlocks.map((block, index) => (
               <div key={index} className='group'>
