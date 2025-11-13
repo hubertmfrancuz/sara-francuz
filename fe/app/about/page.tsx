@@ -31,8 +31,17 @@ const aboutPageQuery = `*[_type == "aboutPage"][0] {
   instagramHandle
 }`
 
+// Revalidate every hour, or instantly via webhook
+export const revalidate = 3600
+
 export default async function AboutPage() {
-  const aboutData: AboutPage | null = await client.fetch(aboutPageQuery)
+  const aboutData: AboutPage | null = await client.fetch(
+    aboutPageQuery,
+    {},
+    {
+      next: { revalidate: 3600, tags: ['about-page'] }
+    }
+  )
 
   if (!aboutData) {
     return (

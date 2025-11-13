@@ -21,7 +21,7 @@ export default function Menu({ isOpen, onClose, collections }: MenuProps) {
   const pathname = usePathname()
 
   // Custom easing
-  const customEase = [0.65, 0.05, 0.36, 1]
+  const customEase = [0.65, 0.05, 0.36, 1] as [number, number, number, number]
 
   // Close menu when route changes
   useEffect(() => {

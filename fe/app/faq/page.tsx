@@ -19,8 +19,17 @@ const faqPageQuery = `*[_type == "faqPage"][0] {
   }
 }`
 
+// Revalidate every hour, or instantly via webhook
+export const revalidate = 3600
+
 export default async function FAQPage() {
-  const faqData: FAQPage | null = await client.fetch(faqPageQuery)
+  const faqData: FAQPage | null = await client.fetch(
+    faqPageQuery,
+    {},
+    {
+      next: { revalidate: 3600, tags: ['faq-page'] }
+    }
+  )
 
   if (!faqData) {
     return (
