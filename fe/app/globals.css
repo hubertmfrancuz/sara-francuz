@@ -10,13 +10,18 @@
   --color-foreground: var(--foreground);
 
   /* Font sizes - Herbik */
-  --font-size-herbik-sm: 13px;      /* 13px */
-  --font-size-herbik-base: 18px;    /* 18px */
-  --font-size-herbik-lg: 21px;      /* 21px */
-  --font-size-herbik-xl: 28px;      /* 28px */
+  --font-size-herbik-sm: 13px;
+  /* 13px */
+  --font-size-herbik-base: 18px;
+  /* 18px */
+  --font-size-herbik-lg: 21px;
+  /* 21px */
+  --font-size-herbik-xl: 28px;
+  /* 28px */
 
   /* Font sizes - Cutive Mono */
-  --font-size-cutive: 13px;         /* 13px */
+  --font-size-cutive: 13px;
+  /* 13px */
 
   /* Color System - Yellow Scale */
   --color-yellow-100: #FEFEEC;
@@ -69,22 +74,69 @@ body {
 
 /* Font size utilities - Herbik */
 .text-herbik-sm {
-  font-size: var(--font-size-herbik-sm); /* 13px */
+  font-size: var(--font-size-herbik-sm);
+  /* 13px */
 }
 
 .text-herbik-base {
-  font-size: var(--font-size-herbik-base); /* 18px */
+  font-size: var(--font-size-herbik-base);
+  /* 18px */
 }
 
 .text-herbik-lg {
-  font-size: var(--font-size-herbik-lg); /* 21px */
+  font-size: var(--font-size-herbik-lg);
+  /* 21px */
 }
 
 .text-herbik-xl {
-  font-size: var(--font-size-herbik-xl); /* 28px */
+  font-size: var(--font-size-herbik-xl);
+  /* 28px */
 }
 
 /* Font size utility - Cutive Mono */
 .text-cutive {
-  font-size: var(--font-size-cutive); /* 13px */
+  font-size: var(--font-size-cutive);
+  /* 13px */
+}
+
+/* View Transitions */
+@view-transition {
+  navigation: auto;
+}
+
+/* Header stays fixed without transition */
+header {
+  view-transition-name: header;
+}
+
+::view-transition-old(header),
+::view-transition-new(header) {
+  animation: none;
+}
+
+/* Old page: fade out in first half */
+::view-transition-old(root) {
+  animation-name: fade-out;
+  animation-duration: 0.3s;
+  animation-timing-function: cubic-bezier(0.46, 0.03, 0.52, 0.96);
+}
+
+/* New page: wait, then fade in in second half */
+::view-transition-new(root) {
+  animation-name: fade-in;
+  animation-duration: 0.3s;
+  animation-delay: 0.5s;
+  animation-timing-function: cubic-bezier(0.46, 0.03, 0.52, 0.96);
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
 }

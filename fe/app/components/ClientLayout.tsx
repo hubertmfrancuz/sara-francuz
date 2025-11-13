@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Header from "./Header"
+import Footer from "./Footer"
+import Cart from "./Cart"
 import LoadingScreen from "./LoadingScreen"
 import SmoothScroll from "./SmoothScroll"
 
@@ -27,15 +29,15 @@ export default function ClientLayout({
     // TEMPORARY: Always show loading animation for testing
     // TODO: Re-enable sessionStorage check when done testing
     // Check if this is a fresh page load (not navigation)
-    // const hasLoaded = sessionStorage.getItem('hasLoadedBefore')
-    // if (hasLoaded) {
-    //   // Skip loading animation on navigation
-    //   setIsLoading(false)
-    //   setShowContent(true)
-    // } else {
-    //   // Mark that we've loaded once
-    //   sessionStorage.setItem('hasLoadedBefore', 'true')
-    // }
+    const hasLoaded = sessionStorage.getItem("hasLoadedBefore")
+    if (hasLoaded) {
+      // Skip loading animation on navigation
+      setIsLoading(false)
+      setShowContent(true)
+    } else {
+      // Mark that we've loaded once
+      sessionStorage.setItem("hasLoadedBefore", "true")
+    }
   }, [])
 
   const handleLoadingComplete = () => {
@@ -68,9 +70,20 @@ export default function ClientLayout({
             >
               {children}
             </motion.main>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <Footer />
+            </motion.div>
           </>
         )}
       </AnimatePresence>
+
+      {/* Cart Drawer */}
+      <Cart />
     </>
   )
 }

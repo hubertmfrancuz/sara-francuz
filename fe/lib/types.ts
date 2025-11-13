@@ -38,4 +38,28 @@ export interface Collection {
   slug: {
     current: string
   }
+  count?: number
+}
+
+export interface ProductProperty {
+  title: string
+  content: string
+}
+
+export interface Product {
+  _id: string
+  title: string
+  handle: {
+    current: string
+  }
+  price: number
+  images: SanityImage[]
+  collection: {
+    title: string
+    slug: {
+      current: string
+    }
+  }
+  properties?: ProductProperty[]
+  description?: string
 }

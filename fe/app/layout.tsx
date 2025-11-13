@@ -4,6 +4,7 @@ import {client} from "@/lib/sanity";
 import {collectionsQuery} from "@/lib/queries";
 import {Collection} from "@/lib/types";
 import ClientLayout from "./components/ClientLayout";
+import {CartProvider} from "./context/CartContext";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -23,9 +24,11 @@ export default async function RootLayout({
       <body
         className={`${herbik.variable} ${cutiveMono.variable} antialiased`}
       >
-        <ClientLayout collections={collections}>
-          {children}
-        </ClientLayout>
+        <CartProvider>
+          <ClientLayout collections={collections}>
+            {children}
+          </ClientLayout>
+        </CartProvider>
       </body>
     </html>
   );
