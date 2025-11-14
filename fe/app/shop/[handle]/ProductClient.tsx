@@ -168,7 +168,7 @@ export default function ProductClient({
             <h2 className='mb-600 text-cutive font-cutive uppercase'>
               More from {product.collection?.title}
             </h2>
-            <div className='grid grid-cols-2 gap-200 md:grid-cols-4'>
+            <div className='grid grid-cols-2 gap-x-200 gap-y-600 md:grid-cols-4'>
               {relatedProducts.map(relatedProduct => (
                 <ViewTransitionLink
                   key={relatedProduct._id}
