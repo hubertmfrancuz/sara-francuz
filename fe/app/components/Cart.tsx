@@ -34,14 +34,14 @@ export default function Cart() {
       "Hello,\n\nI would like to inquire about the following items:\n\n"
 
     items.forEach((item, index) => {
-      body += `${index + 1}. ${item.title} x${item.quantity}, €${(item.price * item.quantity).toFixed(2)} EUR\n`
+      body += `${index + 1}. ${item.title} x${item.quantity}, ${(item.price * item.quantity).toFixed(2)} PLN\n`
     })
 
     const total = items.reduce(
       (sum, item) => sum + item.price * item.quantity,
       0
     )
-    body += `\nTotal: €${total.toFixed(2)} EUR\n\n`
+    body += `\nTotal: ${total.toFixed(2)} PLN\n\n`
     body +=
       "Please let me know about availability and next steps.\n\nThank you!"
 
@@ -108,7 +108,7 @@ export default function Cart() {
                             </h3>
                           </div>
                           <p className='text-cutive font-cutive'>
-                            €{(item.price * item.quantity).toFixed(2)}
+                            {(item.price * item.quantity).toFixed(2)} PLN
                           </p>
                         </div>
 

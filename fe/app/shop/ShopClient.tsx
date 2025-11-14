@@ -173,7 +173,7 @@ export default function ShopClient({
                     {product.title}
                   </h3>
                   <p className='text-cutive font-cutive'>
-                    €{product.price.toFixed(2)} EUR
+                    {product.price.toFixed(2)} PLN
                   </p>
                 </ViewTransitionLink>
               </motion.div>

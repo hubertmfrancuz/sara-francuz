@@ -19,10 +19,10 @@ export default function Footer() {
             FAQ
           </ViewTransitionLink>
           <ViewTransitionLink
-            href='/privacy-policy'
+            href='/shop'
             className='text-herbik-lg transition-opacity hover:opacity-50'
           >
-            Privacy Policy
+            Shop
           </ViewTransitionLink>
         </nav>
 

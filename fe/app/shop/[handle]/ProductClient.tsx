@@ -64,19 +64,27 @@ export default function ProductClient({
               className='relative aspect-3/4 w-full cursor-pointer md:hidden'
               onClick={handleNextImage}
             >
-              {product.images && product.images[currentImageIndex] && (
-                <ImageWithFade
-                  src={urlFor(product.images[currentImageIndex]).url()}
-                  alt={product.images[currentImageIndex].alt || product.title}
-                  fill
-                  className='object-cover'
-                  priority
-                />
-              )}
+              {/* Render all images but only show the current one */}
+              {product.images && product.images.map((image, index) => (
+                <div
+                  key={index}
+                  className={`absolute inset-0 transition-opacity duration-300 ${
+                    index === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                  }`}
+                >
+                  <ImageWithFade
+                    src={urlFor(image).url()}
+                    alt={image.alt || product.title}
+                    fill
+                    className='object-cover'
+                    priority={index < 2}
+                  />
+                </div>
+              ))}
 
               {/* Image Counter */}
               {product.images.length > 1 && (
-                <div className='absolute px-400 py-400 right-0 top-0 text-white text-cutive font-cutive'>
+                <div className='absolute px-400 py-400 right-0 top-0 text-white text-cutive font-cutive z-20'>
                   {currentImageIndex + 1} / {product.images.length}
                 </div>
               )}
@@ -102,10 +110,10 @@ export default function ProductClient({
           {/* Product Info Container - Second on mobile, Right 2 columns on desktop (sticky) */}
           <div className='md:px-400 bg-yellow-300 p-500 order-2 md:col-span-2 md:sticky md:top-[108px] md:h-fit'>
             {/* Title and Price */}
-            <div className='flex items-start justify-between'>
-              <h1 className='text-herbik-xl italic'>{product.title}</h1>
-              <p className='text-cutive font-cutive'>
-                €{product.price.toFixed(2)} EUR
+            <div className='flex items-start justify-between gap-400'>
+              <h1 className='text-herbik-xl italic max-w-[60%]'>{product.title}</h1>
+              <p className='text-cutive font-cutive whitespace-nowrap'>
+                {product.price.toFixed(2)} PLN
               </p>
             </div>
 
@@ -194,7 +202,7 @@ export default function ProductClient({
                     {relatedProduct.title}
                   </h3>
                   <p className='text-cutive font-cutive'>
-                    €{relatedProduct.price.toFixed(2)} EUR
+                    {relatedProduct.price.toFixed(2)} PLN
                   </p>
                 </ViewTransitionLink>
               ))}

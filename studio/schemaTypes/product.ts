@@ -35,7 +35,7 @@ export default defineType({
       name: 'price',
       title: 'Price',
       type: 'number',
-      description: 'Price in EUR (e.g., 99.00)',
+      description: 'Price in PLN (e.g., 399.00)',
       validation: (Rule) => Rule.required().positive(),
     },
     {
@@ -144,7 +144,7 @@ export default defineType({
     prepare({title, subtitle, media, price}) {
       return {
         title: title,
-        subtitle: `${subtitle} - €${price?.toFixed(2)}`,
+        subtitle: `${subtitle} - ${price?.toFixed(2)} PLN`,
         media: media,
       }
     },

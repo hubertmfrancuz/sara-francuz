@@ -140,7 +140,7 @@ export default async function Home() {
                       {product.title}
                     </h3>
                     <p className='text-cutive font-cutive opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
-                      €{product.price.toFixed(2)} EUR
+                      {product.price.toFixed(2)} PLN
                     </p>
                   </Link>
                 ))}
