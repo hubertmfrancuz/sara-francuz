@@ -45,6 +45,9 @@ export async function POST(request: NextRequest) {
         }
         revalidateTag('products', {})
         revalidatePath('/shop', 'page')
+        // Also revalidate home page since products can be featured there
+        revalidateTag('home-page', {})
+        revalidatePath('/', 'page')
         break
 
       case 'collection':
