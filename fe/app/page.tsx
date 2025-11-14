@@ -70,7 +70,7 @@ export default async function Home() {
             ) : null}
           </Link>
           {data.hero.linkUrl && data.hero.linkText && (
-            <div className='absolute bottom-400 left-0 right-0 mx-auto max-w-2xl md:max-w-[1400px] px-6 pointer-events-none'>
+            <div className='absolute bottom-400 left-0 right-0 mx-auto max-w-2xl md:max-w-[1400px] px-400 pointer-events-none'>
               <div className='border-l border-graphite-100 flex items-center'>
                 <Link
                   href='/shop'
@@ -86,7 +86,7 @@ export default async function Home() {
 
       {/* Featured Collection Section */}
       {data.featuredCollection && (
-        <section className='mx-auto max-w-2xl md:max-w-[1400px] px-6 py-24'>
+        <section className='mx-auto max-w-2xl md:max-w-[1400px] px-400 py-24'>
           {/* Section Title/Link */}
           <div className='mb-400 flex items-center gap-200'>
             <div className='h-200 w-px bg-graphite-900' />
@@ -151,7 +151,7 @@ export default async function Home() {
 
       {/* Content Blocks */}
       {data.contentBlocks && data.contentBlocks.length > 0 && (
-        <section className='mx-auto max-w-2xl md:max-w-[1400px] px-6 py-24'>
+        <section className='mx-auto max-w-2xl md:max-w-[1400px] px-400 py-24'>
           <div className='grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3'>
             {data.contentBlocks.map((block, index) => (
               <div key={index} className='group'>
@@ -172,7 +172,7 @@ export default async function Home() {
                 {block.linkUrl && block.linkText && (
                   <a
                     href={block.linkUrl}
-                    className='inline-block border border-black px-6 py-2 text-sm transition-all hover:bg-black hover:text-white'
+                    className='inline-block border border-black px-400 py-2 text-sm transition-all hover:bg-black hover:text-white'
                   >
                     {block.linkText}
                   </a>
