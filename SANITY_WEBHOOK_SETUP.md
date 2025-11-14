@@ -5,6 +5,7 @@ This guide explains how to set up Sanity webhooks to trigger instant revalidatio
 ## Overview
 
 Your Next.js site now uses:
+
 - **ISR (Incremental Static Regeneration)**: Pages revalidate every hour automatically
 - **On-Demand Revalidation**: Instant updates when content changes in Sanity via webhooks
 - **2 Webhooks Only**: Optimized for Sanity Free Plan (2 webhook limit)
@@ -12,11 +13,13 @@ Your Next.js site now uses:
 ## Step 1: Generate a Secret Token
 
 1. Generate a secure random string for your webhook secret:
+
    ```bash
    node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
    ```
 
 2. Update `.env.local` (for local development):
+
    ```env
    REVALIDATE_SECRET=your-generated-secret-here
    ```
@@ -39,6 +42,7 @@ Your Next.js site now uses:
 ### Webhook Configuration (2 Webhooks Total)
 
 #### Webhook 1: Content Pages (Home, About, FAQ)
+
 ```
 Name: Content Pages Revalidation
 URL: https://your-domain.vercel.app/api/revalidate
@@ -59,6 +63,7 @@ Payload:
 **What this does:** Triggers revalidation whenever Home, About, or FAQ page content changes. The API route automatically handles each type.
 
 #### Webhook 2: Products & Collections
+
 ```
 Name: Products & Collections Revalidation
 URL: https://your-domain.vercel.app/api/revalidate
@@ -96,12 +101,14 @@ Payload:
 ### Local Testing (Optional - using ngrok)
 
 1. Start your local Next.js dev server:
+
    ```bash
    cd fe
    npm run dev
    ```
 
 2. Expose localhost with ngrok:
+
    ```bash
    ngrok http 3000
    ```
@@ -147,14 +154,14 @@ Payload:
 
 The following cache tags are used:
 
-| Tag | Triggers Revalidation Of |
-|-----|-------------------------|
-| `home-page` | Homepage |
-| `about-page` | About page |
-| `faq-page` | FAQ page |
-| `products` | All product listings |
-| `product-{handle}` | Specific product page |
-| `collections` | Collection data in menu |
+| Tag                 | Triggers Revalidation Of        |
+| ------------------- | ------------------------------- |
+| `home-page`         | Homepage                        |
+| `about-page`        | About page                      |
+| `faq-page`          | FAQ page                        |
+| `products`          | All product listings            |
+| `product-{handle}`  | Specific product page           |
+| `collections`       | Collection data in menu         |
 | `collection-{slug}` | Products in specific collection |
 
 ## Fallback Revalidation Periods
@@ -174,21 +181,23 @@ If webhooks fail, pages still auto-revalidate:
 
 ## Webhook Summary (Free Plan Optimized)
 
-| Webhook | Triggers On | Revalidates |
-|---------|-------------|-------------|
-| **Content Pages** | homePage, aboutPage, faqPage | Specific page that changed |
-| **Products & Collections** | product, collection | Products, shop listing, collections menu |
+| Webhook                    | Triggers On                  | Revalidates                              |
+| -------------------------- | ---------------------------- | ---------------------------------------- |
+| **Content Pages**          | homePage, aboutPage, faqPage | Specific page that changed               |
+| **Products & Collections** | product, collection          | Products, shop listing, collections menu |
 
 **Total:** 2 webhooks (fits Sanity Free Plan)
 
 ## Performance Impact
 
 **Before optimization:**
+
 - Every page load = 2-3 Sanity API calls
 - No caching
 - Slow first load (~2-5 seconds)
 
 **After optimization:**
+
 - Pages served from Edge CDN (< 100ms)
 - Sanity API calls reduced by ~90%
 - Updates still instant via webhooks
@@ -197,6 +206,7 @@ If webhooks fail, pages still auto-revalidate:
 ## Monitoring
 
 Track revalidation events:
+
 1. **Sanity Dashboard** → API → Webhooks → View Logs
 2. **Vercel Dashboard** → Logs (filter by `/api/revalidate`)
 3. Add custom analytics if needed
@@ -204,15 +214,18 @@ Track revalidation events:
 ## Troubleshooting
 
 ### Webhook returns 401 Unauthorized
+
 - Check `REVALIDATE_SECRET` matches in `.env.local` and Vercel env vars
 - Verify Authorization header format: `Bearer your-secret-token`
 - Make sure you redeployed after adding the env variable
 
 ### Webhook returns 500 Error
+
 - Check Vercel function logs for details
 - Verify payload structure (should have `_type` field)
 
 ### Page doesn't update immediately
+
 - Hard refresh browser (Cmd+Shift+R or Ctrl+Shift+R)
 - Check webhook was triggered in Sanity logs
 - Verify webhook returned 200 OK status
