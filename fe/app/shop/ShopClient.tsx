@@ -137,7 +137,9 @@ export default function ShopClient({
         </div>
 
         {/* Product Grid */}
-        <div className={`grid gap-x-200 gap-y-600 ${gridClasses[view]}`}>
+        <div
+          className={`grid gap-x-200 md:gap-x-400 gap-y-600 ${gridClasses[view]}`}
+        >
           <AnimatePresence mode='sync'>
             {products.map((product, index) => (
               <motion.div
