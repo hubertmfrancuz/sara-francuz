@@ -1,5 +1,6 @@
 import ImageWithFade from "@/app/components/ImageWithFade"
 import { Metadata } from "next"
+import Link from "next/link"
 import { client, urlFor } from "@/lib/sanity"
 import { homePageQuery } from "@/lib/queries"
 import { HomePage } from "@/lib/types"
@@ -12,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
     homePageQuery,
     {},
     {
-      next: { revalidate: 3600, tags: ['home-page'] }
+      next: { revalidate: 3600, tags: ["home-page"] },
     }
   )
 
@@ -27,7 +28,7 @@ export default async function Home() {
     homePageQuery,
     {},
     {
-      next: { revalidate: 3600, tags: ['home-page'] }
+      next: { revalidate: 3600, tags: ["home-page"] },
     }
   )
 
@@ -42,25 +43,109 @@ export default async function Home() {
   return (
     <div className='min-h-screen bg-white'>
       {/* Hero Section */}
-      {data.hero && data.hero.image && (
+      {data.hero && (data.hero.video || data.hero.image) && (
         <section className='relative h-screen w-full'>
-          <ImageWithFade
-            src={urlFor(data.hero.image).url()}
-            alt={data.hero.alt || data.hero.image.alt || "Hero image"}
-            fill
-            className='object-cover'
-            priority
-          />
-          {data.hero.linkUrl && data.hero.linkText && (
-            <div className='absolute bottom-400 left-400 border-l border-graphite-100 flex items-center justify-center'>
-              <a
-                href={data.hero.linkUrl}
-                className='pl-200 text-xl italic text-white transition-all hover:bg-black hover:text-white'
+          <Link href='/shop' className='absolute inset-0'>
+            {data.hero.video?.asset?.url ? (
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                poster={
+                  data.hero.image ? urlFor(data.hero.image).url() : undefined
+                }
+                className='h-full w-full object-cover'
               >
-                {data.hero.linkText}
-              </a>
+                <source src={data.hero.video.asset.url} type='video/mp4' />
+              </video>
+            ) : data.hero.image ? (
+              <ImageWithFade
+                src={urlFor(data.hero.image).url()}
+                alt={data.hero.alt || data.hero.image.alt || "Hero image"}
+                fill
+                className='object-cover'
+                priority
+              />
+            ) : null}
+          </Link>
+          {data.hero.linkUrl && data.hero.linkText && (
+            <div className='absolute bottom-400 left-0 right-0 mx-auto max-w-2xl md:max-w-[1400px] px-6 pointer-events-none'>
+              <div className='border-l border-graphite-100 flex items-center'>
+                <Link
+                  href='/shop'
+                  className='pl-200 text-xl italic text-white transition-all hover:text-graphite-300 pointer-events-auto'
+                >
+                  {data.hero.linkText}
+                </Link>
+              </div>
             </div>
           )}
+        </section>
+      )}
+
+      {/* Featured Collection Section */}
+      {data.featuredCollection && (
+        <section className='mx-auto max-w-2xl md:max-w-[1400px] px-6 py-24'>
+          {/* Section Title/Link */}
+          <div className='mb-400 flex items-center gap-200'>
+            <div className='h-200 w-px bg-graphite-900' />
+            <Link
+              href={data.featuredCollection.linkUrl}
+              className='text-cutive font-cutive uppercase hover:text-graphite-500 transition-colors'
+            >
+              {data.featuredCollection.title}
+            </Link>
+          </div>
+
+          {/* Hero Image */}
+          {data.featuredCollection.heroImage && (
+            <div className='relative mb-400 aspect-[16/9] w-full overflow-hidden'>
+              <ImageWithFade
+                src={urlFor(data.featuredCollection.heroImage).url()}
+                alt={
+                  data.featuredCollection.heroImage.alt ||
+                  data.featuredCollection.title
+                }
+                fill
+                className='object-cover'
+              />
+            </div>
+          )}
+
+          {/* Product Grid */}
+          {data.featuredCollection.featuredProducts &&
+            data.featuredCollection.featuredProducts.length > 0 && (
+              <div className='grid grid-cols-4 gap-200 md:gap-400 md:grid-cols-8'>
+                {data.featuredCollection.featuredProducts.map(product => (
+                  <Link
+                    key={product._id}
+                    href={`/shop/${product.handle.current}`}
+                    className='group'
+                  >
+                    {/* Product Image */}
+                    <div className='relative mb-200 aspect-3/4 w-full overflow-hidden bg-gray-200'>
+                      {product.images && product.images[0] && (
+                        <ImageWithFade
+                          src={urlFor(product.images[0]).url()}
+                          alt={product.images[0].alt || product.title}
+                          fill
+                          className='object-cover transition-transform duration-300'
+                        />
+                      )}
+                    </div>
+
+                    {/* Product Info */}
+                    <h3 className='text-cutive font-cutive uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
+                      {product.title}
+                    </h3>
+                    <p className='text-cutive font-cutive opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
+                      €{product.price.toFixed(2)} EUR
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            )}
         </section>
       )}
 

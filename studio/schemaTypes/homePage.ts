@@ -18,6 +18,12 @@ export default defineType({
       type: 'hero',
     },
     {
+      name: 'featuredCollection',
+      title: 'Featured Collection Section',
+      type: 'featuredCollection',
+      description: 'Showcase a collection with hero image and selected products',
+    },
+    {
       name: 'contentBlocks',
       title: 'Content Blocks',
       type: 'array',

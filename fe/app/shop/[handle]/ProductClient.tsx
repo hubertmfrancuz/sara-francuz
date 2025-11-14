@@ -56,9 +56,9 @@ export default function ProductClient({
         </div>
 
         {/* Mobile: stacked, Desktop: 5-column grid (3 + 2) */}
-        <div className='pb-400 flex flex-col gap-400 md:grid md:grid-cols-5 md:gap-400 md:pb-1000 md:items-start'>
+        <div className='md:mx-400 pb-400 flex flex-col gap-400 md:grid md:grid-cols-5 md:gap-400 md:pb-1000 md:items-start'>
           {/* Image Gallery - First on mobile, Left 3 columns on desktop */}
-          <div className='px-400 relative order-1 md:col-span-3'>
+          <div className='mx-400 md:mx-0 relative order-1 md:col-span-3'>
             {/* Mobile: Image Slider */}
             <div
               className='relative aspect-3/4 w-full cursor-pointer md:hidden'
@@ -112,7 +112,7 @@ export default function ProductClient({
             {/* Add to Inquiry Button */}
             <button
               onClick={handleAddToInquiry}
-              className='py-800 w-full text-center text-cutive font-cutive transition-all hover:bg-graphite-900 hover:text-yellow-100 cursor-pointer'
+              className='py-800 w-full text-center text-cutive font-cutive transition-all hover:text-graphite-300 cursor-pointer'
             >
               | ADD TO INQUIRY +
             </button>
@@ -147,6 +147,16 @@ export default function ProductClient({
                   Description
                 </h2>
                 <p className='text-herbik-sm'>{product.description}</p>
+              </div>
+            )}
+
+            {/* Care Instructions */}
+            {product.careInstructions && (
+              <div className='pt-600'>
+                <h2 className='mb-400 text-cutive font-cutive uppercase'>
+                  Care Instructions
+                </h2>
+                <p className='text-herbik-sm'>{product.careInstructions}</p>
               </div>
             )}
           </div>

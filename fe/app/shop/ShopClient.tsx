@@ -25,6 +25,12 @@ export default function ShopClient({
   // Custom easing
   const customEase = [0.65, 0.05, 0.36, 1] as [number, number, number, number]
 
+  // Calculate total products count from all collections
+  const totalProductsCount = collections.reduce(
+    (sum, collection) => sum + (collection.count || 0),
+    0
+  )
+
   const handleCollectionFilter = (slug: string | null) => {
     if (slug) {
       router.push(`/shop?collection=${slug}`)
@@ -62,7 +68,7 @@ export default function ShopClient({
                 <span
                   className={`transition-colors duration-300 ${!selectedCollection ? "hover:text-graphite-500" : "text-graphite-300 hover:text-graphite-500"}`}
                 >
-                  All ({products.length})
+                  All ({totalProductsCount})
                 </span>
               </button>
               {collections.map(collection => (
@@ -105,7 +111,9 @@ export default function ShopClient({
                 ) : (
                   <div className='w-[1px]' />
                 )}
-                <span className={`transition-colors duration-300 ${view === "large" ? "hover:text-graphite-500" : "text-graphite-300 hover:text-graphite-500"}`}>
+                <span
+                  className={`transition-colors duration-300 ${view === "large" ? "hover:text-graphite-500" : "text-graphite-300 hover:text-graphite-500"}`}
+                >
                   Large
                 </span>
               </button>
@@ -118,7 +126,9 @@ export default function ShopClient({
                 ) : (
                   <div className='w-[1px]' />
                 )}
-                <span className={`transition-colors duration-300 ${view === "small" ? "hover:text-graphite-500" : "text-graphite-300 hover:text-graphite-500"}`}>
+                <span
+                  className={`transition-colors duration-300 ${view === "small" ? "hover:text-graphite-500" : "text-graphite-300 hover:text-graphite-500"}`}
+                >
                   Small
                 </span>
               </button>
@@ -127,17 +137,16 @@ export default function ShopClient({
         </div>
 
         {/* Product Grid */}
-        <div className={`grid gap-200 ${gridClasses[view]}`}>
-          <AnimatePresence mode="wait">
+        <div className={`grid gap-x-200 gap-y-600 ${gridClasses[view]}`}>
+          <AnimatePresence mode='sync'>
             {products.map((product, index) => (
               <motion.div
-                key={`${product._id}-${view}`}
+                key={product._id}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{
-                  duration: 0.4,
-                  delay: index * 0.05,
+                  duration: 0.3,
                   ease: customEase,
                 }}
               >
@@ -146,19 +155,21 @@ export default function ShopClient({
                   className='group'
                 >
                   {/* Product Image */}
-                  <div className='relative mb-200 aspect-3/4 w-full overflow-hidden bg-gray-200'>
+                  <div className='relative mb-200 aspect-3/4 w-full overflow-hidden bg-gray-200 group-hover:border-yellow-700'>
                     {product.images && product.images[0] && (
                       <ImageWithFade
                         src={urlFor(product.images[0]).url()}
                         alt={product.images[0].alt || product.title}
                         fill
-                        className='object-cover transition-transform duration-300 group-hover:scale-105'
+                        className='object-cover transition-transform duration-300'
                       />
                     )}
                   </div>
 
                   {/* Product Info */}
-                  <h3 className='text-cutive font-cutive'>{product.title}</h3>
+                  <h3 className='text-cutive font-cutive uppercase'>
+                    {product.title}
+                  </h3>
                   <p className='text-cutive font-cutive'>
                     €{product.price.toFixed(2)} EUR
                   </p>
