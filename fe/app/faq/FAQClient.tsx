@@ -1,7 +1,7 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 
 interface FAQEntry {
   question: string
@@ -22,7 +22,7 @@ export default function FAQClient({ faqEntries }: FAQClientProps) {
   return (
     <div className='space-y-0'>
       {faqEntries.map((entry, index) => (
-        <div key={index} className='border-t border-graphite-900'>
+        <div key={index} className='border-t border-graphite-300'>
           <button
             onClick={() => toggleFAQ(index)}
             className='flex w-full items-start justify-between py-400 text-left cursor-pointer'
@@ -31,7 +31,7 @@ export default function FAQClient({ faqEntries }: FAQClientProps) {
               {entry.question}
             </span>
             <span className='flex-shrink-0 text-cutive font-cutive'>
-              {openIndex === index ? '-' : '+'}
+              {openIndex === index ? "-" : "+"}
             </span>
           </button>
 
@@ -39,14 +39,12 @@ export default function FAQClient({ faqEntries }: FAQClientProps) {
             {openIndex === index && (
               <motion.div
                 initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
+                animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.3, ease: [0.65, 0.05, 0.36, 1] }}
                 className='overflow-hidden'
               >
-                <div className='pb-400 text-herbik-sm'>
-                  {entry.answer}
-                </div>
+                <div className='pb-400 text-herbik-sm'>{entry.answer}</div>
               </motion.div>
             )}
           </AnimatePresence>

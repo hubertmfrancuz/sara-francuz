@@ -6,8 +6,17 @@ export interface SanityImage {
   alt?: string
 }
 
+export interface SanityFile {
+  asset: {
+    _ref: string
+    _type: string
+    url?: string
+  }
+}
+
 export interface Hero {
-  image: SanityImage
+  video?: SanityFile
+  image?: SanityImage
   linkUrl?: string
   linkText?: string
   alt?: string
@@ -26,9 +35,17 @@ export interface SEO {
   metaDescription?: string
 }
 
+export interface FeaturedCollection {
+  title: string
+  linkUrl: string
+  heroImage: SanityImage
+  featuredProducts: Product[]
+}
+
 export interface HomePage {
   title: string
   hero?: Hero
+  featuredCollection?: FeaturedCollection
   contentBlocks?: ContentBlock[]
   seo?: SEO
 }
@@ -62,4 +79,5 @@ export interface Product {
   }
   properties?: ProductProperty[]
   description?: string
+  careInstructions?: string
 }

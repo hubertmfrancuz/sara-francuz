@@ -4,6 +4,12 @@ export const homePageQuery = groq`
   *[_type == "homePage"][0] {
     title,
     hero {
+      video {
+        asset-> {
+          _id,
+          url
+        }
+      },
       image {
         asset-> {
           ...
@@ -11,7 +17,30 @@ export const homePageQuery = groq`
         alt
       },
       linkUrl,
-      linkText
+      linkText,
+      alt
+    },
+    featuredCollection {
+      title,
+      linkUrl,
+      heroImage {
+        asset-> {
+          ...
+        },
+        alt
+      },
+      featuredProducts[]-> {
+        _id,
+        title,
+        handle,
+        price,
+        images[] {
+          asset-> {
+            ...
+          },
+          alt
+        }
+      }
     },
     contentBlocks[] {
       title,
@@ -96,7 +125,8 @@ export const productQuery = groq`
       title,
       content
     },
-    description
+    description,
+    careInstructions
   }
 `
 

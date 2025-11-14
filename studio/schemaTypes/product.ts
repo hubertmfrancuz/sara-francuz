@@ -103,6 +103,13 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'careInstructions',
+      title: 'Care Instructions',
+      type: 'text',
+      rows: 5,
+      description: 'Product care and maintenance instructions',
+    },
+    {
       name: 'order',
       title: 'Display Order',
       type: 'number',
