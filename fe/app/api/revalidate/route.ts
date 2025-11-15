@@ -16,9 +16,11 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { _type, slug } = body
+    // Extract slug from handle.current for products, or slug.current for other types
+    const slug = body.slug || body.handle?.current || body.slug?.current
+    const { _type } = body
 
-    console.log('Revalidation webhook received:', { _type, slug })
+    console.log('Revalidation webhook received:', { _type, slug, body })
 
     // Revalidate based on content type
     switch (_type) {
