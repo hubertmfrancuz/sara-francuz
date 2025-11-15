@@ -23,47 +23,47 @@ export async function POST(request: NextRequest) {
     // Revalidate based on content type
     switch (_type) {
       case 'homePage':
-        revalidateTag('home-page', {})
+        revalidateTag('home-page')
         revalidatePath('/', 'page')
         break
 
       case 'aboutPage':
-        revalidateTag('about-page', {})
+        revalidateTag('about-page')
         revalidatePath('/about', 'page')
         break
 
       case 'faqPage':
-        revalidateTag('faq-page', {})
+        revalidateTag('faq-page')
         revalidatePath('/faq', 'page')
         break
 
       case 'product':
         // Revalidate specific product and all products
         if (slug) {
-          revalidateTag(`product-${slug}`, {})
+          revalidateTag(`product-${slug}`)
           revalidatePath(`/shop/${slug}`, 'page')
         }
-        revalidateTag('products', {})
+        revalidateTag('products')
         revalidatePath('/shop', 'page')
         // Also revalidate home page since products can be featured there
-        revalidateTag('home-page', {})
+        revalidateTag('home-page')
         revalidatePath('/', 'page')
         break
 
       case 'collection':
         // Revalidate collections
-        revalidateTag('collections', {})
+        revalidateTag('collections')
         revalidatePath('/', 'page')
         revalidatePath('/shop', 'page')
         break
 
       default:
         // Revalidate everything as fallback
-        revalidateTag('home-page', {})
-        revalidateTag('about-page', {})
-        revalidateTag('faq-page', {})
-        revalidateTag('products', {})
-        revalidateTag('collections', {})
+        revalidateTag('home-page')
+        revalidateTag('about-page')
+        revalidateTag('faq-page')
+        revalidateTag('products')
+        revalidateTag('collections')
         revalidatePath('/', 'page')
     }
 

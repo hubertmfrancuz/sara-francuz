@@ -29,6 +29,7 @@ export default function Cart() {
   }, [isCartOpen])
 
   const generateMailtoLink = () => {
+    const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || ""
     const subject = "Inquiry from Sara Francuz Shop"
     let body =
       "Hello,\n\nI would like to inquire about the following items:\n\n"
@@ -45,7 +46,7 @@ export default function Cart() {
     body +=
       "Please let me know about availability and next steps.\n\nThank you!"
 
-    return `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    return `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
   }
 
   return (
