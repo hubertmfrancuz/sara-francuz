@@ -3,17 +3,25 @@
 import Image, { ImageProps } from 'next/image'
 import { useState } from 'react'
 
-export default function ImageWithFade(props: ImageProps) {
+interface ImageWithFadeProps extends ImageProps {
+  onLoadComplete?: () => void
+}
+
+export default function ImageWithFade({ onLoadComplete, ...props }: ImageWithFadeProps) {
   const [isLoaded, setIsLoaded] = useState(false)
 
   return (
     <Image
       {...props}
-      onLoad={() => {
+      onLoad={(e) => {
         setIsLoaded(true)
+        // Call onLoadComplete callback
+        if (onLoadComplete) {
+          onLoadComplete()
+        }
         // Call original onLoad if provided
         if (props.onLoad) {
-          props.onLoad(props.onLoad as any)
+          props.onLoad(e)
         }
       }}
       className={`transition-opacity duration-700 ease-out ${

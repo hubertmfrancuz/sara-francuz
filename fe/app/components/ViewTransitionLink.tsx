@@ -2,9 +2,31 @@
 
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { ComponentProps, MouseEvent } from "react"
+import { ComponentProps, MouseEvent, useState, useEffect } from "react"
 
 type ViewTransitionLinkProps = ComponentProps<typeof Link>
+
+// Global loading state
+let isNavigating = false
+let navigationListeners: Set<(state: boolean) => void> = new Set()
+
+export function setNavigating(state: boolean) {
+  isNavigating = state
+  navigationListeners.forEach(listener => listener(state))
+}
+
+export function useIsNavigating() {
+  const [navigating, setNavigating] = useState(isNavigating)
+
+  useEffect(() => {
+    navigationListeners.add(setNavigating)
+    return () => {
+      navigationListeners.delete(setNavigating)
+    }
+  }, [])
+
+  return navigating
+}
 
 export default function ViewTransitionLink({
   href,
@@ -15,12 +37,6 @@ export default function ViewTransitionLink({
   const router = useRouter()
 
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
-    // Check if browser supports View Transitions
-    if (!document.startViewTransition) {
-      // Fallback: just use normal navigation
-      return
-    }
-
     // Don't intercept if it's a modifier click (cmd/ctrl/shift)
     if (e.metaKey || e.ctrlKey || e.shiftKey) {
       return
@@ -28,10 +44,18 @@ export default function ViewTransitionLink({
 
     e.preventDefault()
 
-    // Start view transition
-    document.startViewTransition(() => {
+    // Set loading state immediately
+    setNavigating(true)
+
+    // Wait for overlay to be visible, then navigate
+    setTimeout(() => {
       router.push(href.toString())
-    })
+
+      // Keep overlay visible for minimum time to ensure new page renders
+      setTimeout(() => {
+        setNavigating(false)
+      }, 800)
+    }, 150)
   }
 
   return (

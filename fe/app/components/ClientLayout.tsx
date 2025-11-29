@@ -7,6 +7,8 @@ import Footer from "./Footer"
 import Cart from "./Cart"
 import LoadingScreen from "./LoadingScreen"
 import SmoothScroll from "./SmoothScroll"
+import NavigationOverlay from "./NavigationOverlay"
+import { useIsNavigating } from "./ViewTransitionLink"
 
 interface Collection {
   title: string
@@ -31,6 +33,7 @@ export default function ClientLayout({
 }: ClientLayoutProps) {
   const [isLoading, setIsLoading] = useState(true)
   const [showContent, setShowContent] = useState(false)
+  const isNavigating = useIsNavigating()
 
   useEffect(() => {
     // TEMPORARY: Always show loading animation for testing
@@ -56,32 +59,40 @@ export default function ClientLayout({
       {/* Smooth Scroll */}
       <SmoothScroll />
 
+      {/* Navigation Overlay */}
+      <NavigationOverlay />
+
       {isLoading && <LoadingScreen onComplete={handleLoadingComplete} />}
 
-      <AnimatePresence>
+      {/* Header - always visible, never animates */}
+      {showContent && (
+        <motion.div
+          initial={{ opacity: 1 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0 }}
+        >
+          <Header collections={collections} contactInfo={contactInfo} />
+        </motion.div>
+      )}
+
+      <AnimatePresence mode="wait">
         {showContent && (
           <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4 }}
-            >
-              <Header collections={collections} contactInfo={contactInfo} />
-            </motion.div>
-
             <motion.main
+              key="main-content"
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              animate={{ opacity: isNavigating ? 0 : 1 }}
+              transition={{ duration: isNavigating ? 0.15 : 0.5, delay: isNavigating ? 0 : 0.2 }}
               className='pt-[0px]'
             >
               {children}
             </motion.main>
 
             <motion.div
+              key="footer"
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
+              animate={{ opacity: isNavigating ? 0 : 1 }}
+              transition={{ duration: isNavigating ? 0.15 : 0.5, delay: isNavigating ? 0 : 0.3 }}
             >
               <Footer />
             </motion.div>

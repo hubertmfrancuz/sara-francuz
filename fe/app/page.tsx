@@ -1,6 +1,6 @@
 import ImageWithFade from "@/app/components/ImageWithFade"
 import { Metadata } from "next"
-import Link from "next/link"
+import ViewTransitionLink from "@/app/components/ViewTransitionLink"
 import { client, urlFor } from "@/lib/sanity"
 import { homePageQuery } from "@/lib/queries"
 import { HomePage } from "@/lib/types"
@@ -45,7 +45,7 @@ export default async function Home() {
       {/* Hero Section */}
       {data.hero && (data.hero.video || data.hero.image) && (
         <section className='relative h-screen w-full'>
-          <Link href='/shop' className='absolute inset-0'>
+          <ViewTransitionLink href='/shop' className='absolute inset-0'>
             {data.hero.video?.asset?.url ? (
               <video
                 autoPlay
@@ -68,16 +68,16 @@ export default async function Home() {
                 priority
               />
             ) : null}
-          </Link>
+          </ViewTransitionLink>
           {data.hero.linkUrl && data.hero.linkText && (
             <div className='absolute bottom-400 left-0 right-0 mx-auto max-w-2xl md:max-w-[1400px] px-400 pointer-events-none'>
               <div className='border-l border-graphite-100 flex items-center'>
-                <Link
+                <ViewTransitionLink
                   href='/shop'
                   className='pl-200 text-xl italic text-white transition-all hover:text-graphite-300 pointer-events-auto'
                 >
                   {data.hero.linkText}
-                </Link>
+                </ViewTransitionLink>
               </div>
             </div>
           )}
@@ -90,12 +90,12 @@ export default async function Home() {
           {/* Section Title/Link */}
           <div className='mb-400 flex items-center gap-200'>
             <div className='h-200 w-px bg-graphite-900' />
-            <Link
+            <ViewTransitionLink
               href={data.featuredCollection.linkUrl}
               className='text-cutive font-cutive uppercase hover:text-graphite-500 transition-colors'
             >
               {data.featuredCollection.title}
-            </Link>
+            </ViewTransitionLink>
           </div>
 
           {/* Hero Image */}
@@ -118,7 +118,7 @@ export default async function Home() {
             data.featuredCollection.featuredProducts.length > 0 && (
               <div className='grid grid-cols-4 gap-200 md:gap-400 md:grid-cols-8'>
                 {data.featuredCollection.featuredProducts.map(product => (
-                  <Link
+                  <ViewTransitionLink
                     key={product._id}
                     href={`/shop/${product.handle.current}`}
                     className='group'
@@ -142,7 +142,7 @@ export default async function Home() {
                     <p className='text-cutive font-cutive opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
                       {product.price.toFixed(2)} PLN
                     </p>
-                  </Link>
+                  </ViewTransitionLink>
                 ))}
               </div>
             )}

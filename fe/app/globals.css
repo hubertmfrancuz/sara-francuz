@@ -99,44 +99,7 @@ body {
   /* 13px */
 }
 
-/* View Transitions */
+/* Disable View Transitions - we handle transitions manually */
 @view-transition {
-  navigation: auto;
-}
-
-/* Header stays fixed without transition */
-header {
-  view-transition-name: header;
-}
-
-::view-transition-old(header),
-::view-transition-new(header) {
-  animation: none;
-}
-
-/* Old page: fade out in first half */
-::view-transition-old(root) {
-  animation-name: fade-out;
-  animation-duration: 0.3s;
-  animation-timing-function: cubic-bezier(0.46, 0.03, 0.52, 0.96);
-}
-
-/* New page: wait, then fade in in second half */
-::view-transition-new(root) {
-  animation-name: fade-in;
-  animation-duration: 0.3s;
-  animation-delay: 0.5s;
-  animation-timing-function: cubic-bezier(0.46, 0.03, 0.52, 0.96);
-}
-
-@keyframes fade-out {
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
+  navigation: none;
 }

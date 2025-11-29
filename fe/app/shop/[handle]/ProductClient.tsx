@@ -1,11 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback, useEffect } from "react"
 import ViewTransitionLink from "@/app/components/ViewTransitionLink"
 import ImageWithFade from "@/app/components/ImageWithFade"
 import { urlFor } from "@/lib/sanity"
 import { Product } from "@/lib/types"
 import { useCart } from "@/app/context/CartContext"
+import useEmblaCarousel from "embla-carousel-react"
 
 interface ProductClientProps {
   product: Product
@@ -18,18 +19,21 @@ export default function ProductClient({
 }: ProductClientProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const { addItem, openCart } = useCart()
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true })
 
-  const handlePrevImage = () => {
-    setCurrentImageIndex(prev =>
-      prev === 0 ? product.images.length - 1 : prev - 1
-    )
-  }
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return
+    setCurrentImageIndex(emblaApi.selectedScrollSnap())
+  }, [emblaApi])
 
-  const handleNextImage = () => {
-    setCurrentImageIndex(prev =>
-      prev === product.images.length - 1 ? 0 : prev + 1
-    )
-  }
+  useEffect(() => {
+    if (!emblaApi) return
+    onSelect()
+    emblaApi.on("select", onSelect)
+    return () => {
+      emblaApi.off("select", onSelect)
+    }
+  }, [emblaApi, onSelect])
 
   const handleAddToInquiry = () => {
     addItem({
@@ -59,28 +63,27 @@ export default function ProductClient({
         <div className='md:mx-400 pb-400 flex flex-col gap-400 md:grid md:grid-cols-5 md:gap-400 md:pb-1000 md:items-start'>
           {/* Image Gallery - First on mobile, Left 3 columns on desktop */}
           <div className='mx-400 md:mx-0 relative order-1 md:col-span-3'>
-            {/* Mobile: Image Slider */}
-            <div
-              className='relative aspect-3/4 w-full cursor-pointer md:hidden'
-              onClick={handleNextImage}
-            >
-              {/* Render all images but only show the current one */}
-              {product.images && product.images.map((image, index) => (
-                <div
-                  key={index}
-                  className={`absolute inset-0 transition-opacity duration-300 ${
-                    index === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
-                  }`}
-                >
-                  <ImageWithFade
-                    src={urlFor(image).url()}
-                    alt={image.alt || product.title}
-                    fill
-                    className='object-cover'
-                    priority={index < 2}
-                  />
+            {/* Mobile: Scrollable Image Slider */}
+            <div className='relative md:hidden'>
+              <div className='overflow-hidden' ref={emblaRef}>
+                <div className='flex'>
+                  {product.images &&
+                    product.images.map((image, index) => (
+                      <div
+                        key={index}
+                        className='relative flex-[0_0_100%] aspect-3/4'
+                      >
+                        <ImageWithFade
+                          src={urlFor(image).url()}
+                          alt={image.alt || product.title}
+                          fill
+                          className='object-cover'
+                          priority={index < 2}
+                        />
+                      </div>
+                    ))}
                 </div>
-              ))}
+              </div>
 
               {/* Image Counter */}
               {product.images.length > 1 && (

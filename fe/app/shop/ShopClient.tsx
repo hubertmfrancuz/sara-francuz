@@ -1,12 +1,11 @@
 "use client"
 
 import { useState } from "react"
-import ViewTransitionLink from "@/app/components/ViewTransitionLink"
-import ImageWithFade from "@/app/components/ImageWithFade"
 import { useRouter } from "next/navigation"
-import { urlFor } from "@/lib/sanity"
 import { Product, Collection } from "@/lib/types"
 import { motion, AnimatePresence } from "framer-motion"
+import ProductCard from "@/app/components/ProductCard"
+import { setNavigating } from "@/app/components/ViewTransitionLink"
 
 interface ShopClientProps {
   products: Product[]
@@ -32,11 +31,22 @@ export default function ShopClient({
   )
 
   const handleCollectionFilter = (slug: string | null) => {
-    if (slug) {
-      router.push(`/shop?collection=${slug}`)
-    } else {
-      router.push("/shop")
-    }
+    // Set loading state immediately
+    setNavigating(true)
+
+    // Wait for overlay to be visible, then navigate
+    setTimeout(() => {
+      if (slug) {
+        router.push(`/shop?collection=${slug}`)
+      } else {
+        router.push("/shop")
+      }
+
+      // Keep overlay visible for minimum time to ensure new page renders
+      setTimeout(() => {
+        setNavigating(false)
+      }, 800)
+    }, 150)
   }
 
   // Grid classes based on view
@@ -140,45 +150,13 @@ export default function ShopClient({
         <div
           className={`grid gap-x-200 md:gap-x-400 gap-y-600 ${gridClasses[view]}`}
         >
-          <AnimatePresence mode='sync'>
-            {products.map((product, index) => (
-              <motion.div
-                key={product._id}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{
-                  duration: 0.3,
-                  ease: customEase,
-                }}
-              >
-                <ViewTransitionLink
-                  href={`/shop/${product.handle.current}`}
-                  className='group'
-                >
-                  {/* Product Image */}
-                  <div className='relative mb-200 aspect-3/4 w-full overflow-hidden group-hover:border-yellow-700'>
-                    {product.images && product.images[0] && (
-                      <ImageWithFade
-                        src={urlFor(product.images[0]).url()}
-                        alt={product.images[0].alt || product.title}
-                        fill
-                        className='object-cover transition-transform duration-300'
-                      />
-                    )}
-                  </div>
-
-                  {/* Product Info */}
-                  <h3 className='text-cutive font-cutive uppercase'>
-                    {product.title}
-                  </h3>
-                  <p className='text-cutive font-cutive'>
-                    {product.price.toFixed(2)} PLN
-                  </p>
-                </ViewTransitionLink>
-              </motion.div>
-            ))}
-          </AnimatePresence>
+          {products.map((product, index) => (
+            <ProductCard
+              key={product._id}
+              product={product}
+              index={index}
+            />
+          ))}
         </div>
 
         {/* No Products Message */}
