@@ -81,3 +81,8 @@ export interface Product {
   description?: string
   careInstructions?: string
 }
+
+export interface ContactInfo {
+  contactEmail: string
+  instagramHandle: string
+}

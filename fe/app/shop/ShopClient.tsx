@@ -157,7 +157,7 @@ export default function ShopClient({
                   className='group'
                 >
                   {/* Product Image */}
-                  <div className='relative mb-200 aspect-3/4 w-full overflow-hidden bg-gray-200 group-hover:border-yellow-700'>
+                  <div className='relative mb-200 aspect-3/4 w-full overflow-hidden group-hover:border-yellow-700'>
                     {product.images && product.images[0] && (
                       <ImageWithFade
                         src={urlFor(product.images[0]).url()}

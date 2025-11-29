@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import {herbik, cutiveMono} from "@/lib/fonts";
 import {client} from "@/lib/sanity";
-import {collectionsQuery} from "@/lib/queries";
-import {Collection} from "@/lib/types";
+import {collectionsQuery, contactInfoQuery} from "@/lib/queries";
+import {Collection, ContactInfo} from "@/lib/types";
 import ClientLayout from "./components/ClientLayout";
 import {CartProvider} from "./context/CartContext";
 import "./globals.css";
@@ -28,13 +28,21 @@ export default async function RootLayout({
     }
   );
 
+  const contactInfo: ContactInfo = await client.fetch(
+    contactInfoQuery,
+    {},
+    {
+      next: { revalidate: 86400, tags: ['about-page'] }
+    }
+  );
+
   return (
     <html lang="en">
       <body
         className={`${herbik.variable} ${cutiveMono.variable} antialiased`}
       >
         <CartProvider>
-          <ClientLayout collections={collections}>
+          <ClientLayout collections={collections} contactInfo={contactInfo}>
             {children}
           </ClientLayout>
         </CartProvider>

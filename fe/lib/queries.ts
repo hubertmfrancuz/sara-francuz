@@ -154,3 +154,10 @@ export const collectionProductCountsQuery = groq`
     }
   }
 `
+
+export const contactInfoQuery = groq`
+  *[_type == "aboutPage"][0] {
+    contactEmail,
+    instagramHandle
+  }
+`

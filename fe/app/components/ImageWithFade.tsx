@@ -16,7 +16,7 @@ export default function ImageWithFade(props: ImageProps) {
           props.onLoad(props.onLoad as any)
         }
       }}
-      className={`transition-opacity duration-500 ease-out ${
+      className={`transition-opacity duration-700 ease-out ${
         isLoaded ? 'opacity-100' : 'opacity-0'
       } ${props.className || ''}`}
     />

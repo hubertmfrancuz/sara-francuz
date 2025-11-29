@@ -4,7 +4,16 @@ import { useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useCart } from "@/app/context/CartContext"
 
-export default function Cart() {
+interface ContactInfo {
+  contactEmail: string
+  instagramHandle: string
+}
+
+interface CartProps {
+  contactInfo: ContactInfo
+}
+
+export default function Cart({ contactInfo }: CartProps) {
   const {
     items,
     removeItem,
@@ -29,7 +38,6 @@ export default function Cart() {
   }, [isCartOpen])
 
   const generateMailtoLink = () => {
-    const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || ""
     const subject = "Inquiry from Sara Francuz Shop"
     let body =
       "Hello,\n\nI would like to inquire about the following items:\n\n"
@@ -46,7 +54,7 @@ export default function Cart() {
     body +=
       "Please let me know about availability and next steps.\n\nThank you!"
 
-    return `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    return `mailto:${contactInfo.contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
   }
 
   return (

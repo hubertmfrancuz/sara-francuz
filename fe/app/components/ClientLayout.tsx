@@ -13,13 +13,20 @@ interface Collection {
   slug: { current: string }
 }
 
+interface ContactInfo {
+  contactEmail: string
+  instagramHandle: string
+}
+
 interface ClientLayoutProps {
   collections: Collection[]
+  contactInfo: ContactInfo
   children: React.ReactNode
 }
 
 export default function ClientLayout({
   collections,
+  contactInfo,
   children,
 }: ClientLayoutProps) {
   const [isLoading, setIsLoading] = useState(true)
@@ -59,7 +66,7 @@ export default function ClientLayout({
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4 }}
             >
-              <Header collections={collections} />
+              <Header collections={collections} contactInfo={contactInfo} />
             </motion.div>
 
             <motion.main
@@ -83,7 +90,7 @@ export default function ClientLayout({
       </AnimatePresence>
 
       {/* Cart Drawer */}
-      <Cart />
+      <Cart contactInfo={contactInfo} />
     </>
   )
 }

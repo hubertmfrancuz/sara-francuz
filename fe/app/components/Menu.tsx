@@ -10,13 +10,19 @@ interface Collection {
   slug: { current: string }
 }
 
+interface ContactInfo {
+  contactEmail: string
+  instagramHandle: string
+}
+
 interface MenuProps {
   isOpen: boolean
   onClose: () => void
   collections: Collection[]
+  contactInfo: ContactInfo
 }
 
-export default function Menu({ isOpen, onClose, collections }: MenuProps) {
+export default function Menu({ isOpen, onClose, collections, contactInfo }: MenuProps) {
   const [isCollectionsOpen, setIsCollectionsOpen] = useState(false)
   const pathname = usePathname()
 
@@ -152,19 +158,19 @@ export default function Menu({ isOpen, onClose, collections }: MenuProps) {
                   </p>
                   <p className='text-herbik-base leading-400'>
                     Email:{" "}
-                    <a href='mailto:hello@sarafrancuz.com' className=''>
-                      hello@sarafrancuz.com
+                    <a href={`mailto:${contactInfo.contactEmail}`} className=''>
+                      {contactInfo.contactEmail}
                     </a>
                   </p>
                   <p className='text-herbik-base'>
                     Instagram:{" "}
                     <a
-                      href='https://instagram.com/sarafrancuz'
+                      href={`https://instagram.com/${contactInfo.instagramHandle}`}
                       target='_blank'
                       rel='noopener noreferrer'
                       className=''
                     >
-                      @sarafrancuz
+                      @{contactInfo.instagramHandle}
                     </a>
                   </p>
                 </motion.div>

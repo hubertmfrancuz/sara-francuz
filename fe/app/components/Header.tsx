@@ -10,11 +10,17 @@ interface Collection {
   slug: { current: string }
 }
 
-interface HeaderProps {
-  collections: Collection[]
+interface ContactInfo {
+  contactEmail: string
+  instagramHandle: string
 }
 
-export default function Header({ collections }: HeaderProps) {
+interface HeaderProps {
+  collections: Collection[]
+  contactInfo: ContactInfo
+}
+
+export default function Header({ collections, contactInfo }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [removePadding, setRemovePadding] = useState(false)
   const { totalItems, openCart } = useCart()
@@ -87,6 +93,7 @@ export default function Header({ collections }: HeaderProps) {
           setRemovePadding(false)
         }}
         collections={collections}
+        contactInfo={contactInfo}
       />
     </>
   )
