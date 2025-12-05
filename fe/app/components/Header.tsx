@@ -58,7 +58,7 @@ export default function Header({ collections, contactInfo }: HeaderProps) {
   return (
     <>
       {/* Header Bar */}
-      <header className='fixed top-0 md:top-400 left-0 right-0 z-50 flex justify-center'>
+      <header className='fixed top-0 md:top-400 left-0 right-0 z-[10002] flex justify-center'>
         <div className={`w-full bg-yellow-200 px-400 pt-400 md:w-[600px] transition-[padding] duration-100 ease-[cubic-bezier(0.65,0.05,0.36,1)] ${removePadding ? '' : 'pb-400'}`}>
           <div className='flex items-center justify-between px-300 leading-4 border-l border-r border-graphite-900 relative'>
             {/* Left: Menu/Close Button */}

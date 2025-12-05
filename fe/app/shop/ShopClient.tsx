@@ -1,28 +1,34 @@
 "use client"
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useState, useMemo } from "react"
 import { Product, Collection } from "@/lib/types"
 import { motion, AnimatePresence } from "framer-motion"
 import ProductCard from "@/app/components/ProductCard"
-import { setNavigating } from "@/app/components/ViewTransitionLink"
 
 interface ShopClientProps {
   products: Product[]
   collections: Collection[]
-  selectedCollection?: string
 }
 
 export default function ShopClient({
   products,
   collections,
-  selectedCollection,
 }: ShopClientProps) {
-  const router = useRouter()
   const [view, setView] = useState<"large" | "small">("small")
+  const [selectedCollection, setSelectedCollection] = useState<string | null>(null)
 
   // Custom easing
   const customEase = [0.65, 0.05, 0.36, 1] as [number, number, number, number]
+
+  // Filter products based on selected collection
+  const filteredProducts = useMemo(() => {
+    if (!selectedCollection) {
+      return products
+    }
+    return products.filter(product =>
+      product.collection?.slug.current === selectedCollection
+    )
+  }, [products, selectedCollection])
 
   // Calculate total products count from all collections
   const totalProductsCount = collections.reduce(
@@ -31,22 +37,7 @@ export default function ShopClient({
   )
 
   const handleCollectionFilter = (slug: string | null) => {
-    // Set loading state immediately
-    setNavigating(true)
-
-    // Wait for overlay to be visible, then navigate
-    setTimeout(() => {
-      if (slug) {
-        router.push(`/shop?collection=${slug}`)
-      } else {
-        router.push("/shop")
-      }
-
-      // Keep overlay visible for minimum time to ensure new page renders
-      setTimeout(() => {
-        setNavigating(false)
-      }, 800)
-    }, 150)
+    setSelectedCollection(slug)
   }
 
   // Grid classes based on view
@@ -150,7 +141,7 @@ export default function ShopClient({
         <div
           className={`grid gap-x-200 md:gap-x-400 gap-y-600 ${gridClasses[view]}`}
         >
-          {products.map((product, index) => (
+          {filteredProducts.map((product, index) => (
             <ProductCard
               key={product._id}
               product={product}
@@ -161,7 +152,7 @@ export default function ShopClient({
 
         {/* No Products Message */}
         <AnimatePresence>
-          {products.length === 0 && (
+          {filteredProducts.length === 0 && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

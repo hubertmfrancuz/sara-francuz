@@ -47,7 +47,7 @@ export default function Menu({ isOpen, onClose, collections, contactInfo }: Menu
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: customEase }}
             onClick={onClose}
-            className='fixed inset-0 z-40 bg-black mix-blend-hue'
+            className='fixed inset-0 z-[10000] bg-black mix-blend-hue'
           />
           <motion.div
             initial={{ opacity: 0 }}
@@ -55,7 +55,7 @@ export default function Menu({ isOpen, onClose, collections, contactInfo }: Menu
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: customEase }}
             onClick={onClose}
-            className='fixed inset-0 z-[39] bg-yellow-700'
+            className='fixed inset-0 z-[9999] bg-yellow-700'
           />
 
           {/* Menu content */}
@@ -67,7 +67,7 @@ export default function Menu({ isOpen, onClose, collections, contactInfo }: Menu
               clipPath: { duration: 0.6, ease: customEase },
               opacity: { duration: 0.3, ease: customEase },
             }}
-            className='fixed inset-0 z-40 flex justify-center bg-yellow-200 md:bg-transparent pointer-events-none md:top-400 md:bottom-400 md:inset-auto md:left-0 md:right-0'
+            className='fixed inset-0 z-[10000] flex justify-center bg-yellow-200 md:bg-transparent pointer-events-none md:top-400 md:bottom-400 md:inset-auto md:left-0 md:right-0'
           >
             <motion.div
               initial={{ opacity: 1 }}
