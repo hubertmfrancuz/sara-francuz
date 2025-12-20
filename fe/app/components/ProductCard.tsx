@@ -52,11 +52,13 @@ export default function ProductCard({ product, index }: ProductCardProps) {
               src={urlFor(product.images[0]).url()}
               alt={product.images[0].alt || product.title}
               fill
-              loading="eager"
+              sizes="(max-width: 768px) 50vw, 33vw"
+              placeholder={product.images[0].asset?.metadata?.lqip ? 'blur' : 'empty'}
+              blurDataURL={product.images[0].asset?.metadata?.lqip}
               onLoad={() => setIsImageLoaded(true)}
               onLoadingComplete={() => setIsImageLoaded(true)}
-              className={`object-cover transition-all duration-700 ease-out ${
-                isImageLoaded ? 'blur-0 scale-100 group-hover:opacity-80' : 'blur-md scale-105'
+              className={`object-cover transition-opacity duration-700 ease-out ${
+                isImageLoaded ? 'opacity-100' : 'opacity-0'
               }`}
             />
           )}

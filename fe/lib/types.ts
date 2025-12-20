@@ -2,6 +2,9 @@ export interface SanityImage {
   asset: {
     _ref: string
     _type: string
+    metadata?: {
+      lqip?: string
+    }
   }
   hotspot?: {
     x: number

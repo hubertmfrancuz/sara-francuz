@@ -86,6 +86,7 @@ export default function CollectionClient({ collectionDetail }: CollectionClientP
                           src={urlFor(product.images[0]).url()}
                           alt={product.images[0].alt || product.title}
                           fill
+                          lqip={product.images[0].asset?.metadata?.lqip}
                           className='object-cover transition-opacity duration-300 group-hover:opacity-80'
                         />
                       )}

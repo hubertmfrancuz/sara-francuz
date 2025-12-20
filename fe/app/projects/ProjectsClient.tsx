@@ -144,6 +144,7 @@ export default function ProjectsClient({
                         src={urlFor(project.mainImage).url()}
                         alt={project.mainImage.alt || project.title}
                         fill
+                        lqip={project.mainImage.asset?.metadata?.lqip}
                         className='object-cover'
                       />
                     )}

@@ -12,7 +12,10 @@ export const homePageQuery = groq`
       },
       image {
         asset-> {
-          ...
+          ...,
+          metadata {
+            lqip
+          }
         },
         hotspot,
         crop,
@@ -32,7 +35,10 @@ export const homePageQuery = groq`
       url,
       image {
         asset-> {
-          ...
+          ...,
+          metadata {
+            lqip
+          }
         },
         hotspot,
         crop,
@@ -56,7 +62,10 @@ export const homePageQuery = groq`
       price,
       images[] {
         asset-> {
-          ...
+          ...,
+          metadata {
+            lqip
+          }
         },
         alt
       }
@@ -177,7 +186,10 @@ export const projectsQuery = groq`
     handle,
     mainImage {
       asset-> {
-        ...
+        ...,
+        metadata {
+          lqip
+        }
       },
       hotspot,
       crop,
@@ -209,7 +221,10 @@ export const projectQuery = groq`
     description,
     mainImage {
       asset-> {
-        ...
+        ...,
+        metadata {
+          lqip
+        }
       },
       hotspot,
       crop,
@@ -223,7 +238,10 @@ export const projectQuery = groq`
     images[] {
       image {
         asset-> {
-          ...
+          ...,
+          metadata {
+            lqip
+          }
         },
         hotspot,
         crop,
@@ -243,7 +261,10 @@ export const relatedProjectsQuery = groq`
     handle,
     mainImage {
       asset-> {
-        ...
+        ...,
+        metadata {
+          lqip
+        }
       },
       hotspot,
       crop,
@@ -270,7 +291,10 @@ export const collectionDetailQuery = groq`
       price,
       images[] {
         asset-> {
-          ...
+          ...,
+          metadata {
+            lqip
+          }
         },
         alt
       }
@@ -307,7 +331,10 @@ export const collectionDetailQuery = groq`
       price,
       images[] {
         asset-> {
-          ...
+          ...,
+          metadata {
+            lqip
+          }
         },
         alt
       }

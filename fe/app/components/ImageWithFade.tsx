@@ -5,9 +5,10 @@ import { useState, useEffect, useRef } from 'react'
 
 interface ImageWithFadeProps extends ImageProps {
   onLoadComplete?: () => void
+  lqip?: string
 }
 
-export default function ImageWithFade({ onLoadComplete, ...props }: ImageWithFadeProps) {
+export default function ImageWithFade({ onLoadComplete, lqip, ...props }: ImageWithFadeProps) {
   const [isLoaded, setIsLoaded] = useState(false)
   const hasCalledCallback = useRef(false)
   const loadTimeoutRef = useRef<NodeJS.Timeout>()
@@ -45,6 +46,8 @@ export default function ImageWithFade({ onLoadComplete, ...props }: ImageWithFad
   return (
     <Image
       {...props}
+      placeholder={lqip ? 'blur' : 'empty'}
+      blurDataURL={lqip}
       onLoad={(e) => {
         if (loadTimeoutRef.current) {
           clearTimeout(loadTimeoutRef.current)
