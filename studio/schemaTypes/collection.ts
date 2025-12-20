@@ -34,8 +34,31 @@ export default defineType({
       name: 'description',
       title: 'Description',
       type: 'text',
-      rows: 3,
-      description: 'Optional description of the collection',
+      rows: 5,
+      description: 'Collection description (shown on collection detail page)',
+    },
+    {
+      name: 'contentBlocks',
+      title: 'Content Blocks',
+      type: 'array',
+      description: 'Editorial content blocks for the collection page',
+      of: [
+        {type: 'collectionTextBlock'},
+        {type: 'collectionImageBlock'},
+      ],
+    },
+    {
+      name: 'featuredProducts',
+      title: 'Featured Products',
+      type: 'array',
+      description: 'Products to feature on the collection page',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'product'}],
+        },
+      ],
+      validation: (Rule) => Rule.max(4),
     },
   ],
   orderings: [

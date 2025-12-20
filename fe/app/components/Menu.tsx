@@ -36,6 +36,25 @@ export default function Menu({ isOpen, onClose, collections, contactInfo }: Menu
     }
   }, [pathname])
 
+  // Reset collections dropdown when menu closes
+  useEffect(() => {
+    if (!isOpen) {
+      setIsCollectionsOpen(false)
+    }
+  }, [isOpen])
+
+  // Lock scroll when menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = ""
+    }
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [isOpen])
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -47,7 +66,7 @@ export default function Menu({ isOpen, onClose, collections, contactInfo }: Menu
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: customEase }}
             onClick={onClose}
-            className='fixed inset-0 z-40 bg-black mix-blend-hue'
+            className='fixed inset-0 z-[10000] bg-black mix-blend-hue'
           />
           <motion.div
             initial={{ opacity: 0 }}
@@ -55,7 +74,7 @@ export default function Menu({ isOpen, onClose, collections, contactInfo }: Menu
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: customEase }}
             onClick={onClose}
-            className='fixed inset-0 z-[39] bg-yellow-700'
+            className='fixed inset-0 z-[9999] bg-yellow-700'
           />
 
           {/* Menu content */}
@@ -67,27 +86,27 @@ export default function Menu({ isOpen, onClose, collections, contactInfo }: Menu
               clipPath: { duration: 0.6, ease: customEase },
               opacity: { duration: 0.3, ease: customEase },
             }}
-            className='fixed inset-0 z-40 flex justify-center bg-yellow-200 md:bg-transparent pointer-events-none md:top-400 md:bottom-400 md:inset-auto md:left-0 md:right-0'
+            className='fixed inset-0 z-[10000] flex justify-center bg-yellow-200 md:bg-transparent pointer-events-none md:top-400 md:bottom-400 md:inset-auto md:left-0 md:right-0'
           >
             <motion.div
               initial={{ opacity: 1 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2, ease: customEase }}
-              className='w-full px-400 py-400 flex h-full flex-col md:w-[600px] md:bg-yellow-200 pointer-events-auto md:h-auto'
+              className='w-full px-400 py-400 flex h-full flex-col md:w-[500px] md:bg-yellow-200 pointer-events-auto md:h-auto'
             >
               {/* Menu Content */}
               <motion.nav
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.4, delay: 0.6, ease: customEase }}
+                transition={{ duration: 0.6, delay: 0.6, ease: customEase }}
                 className='relative flex flex-1 flex-col pt-1000 px-300 py-100'
               >
                 {/* Animated Left Border */}
                 <motion.div
                   initial={{ height: 0 }}
                   animate={{ height: "100%" }}
-                  transition={{ duration: 0.5, delay: 0.6, ease: customEase }}
+                  transition={{ duration: 1, delay: 0.4, ease: customEase }}
                   className='absolute left-0 top-0 w-[1px] bg-graphite-900'
                 />
 
@@ -95,7 +114,7 @@ export default function Menu({ isOpen, onClose, collections, contactInfo }: Menu
                 <motion.div
                   initial={{ height: 0 }}
                   animate={{ height: "100%" }}
-                  transition={{ duration: 0.5, delay: 0.6, ease: customEase }}
+                  transition={{ duration: 1, delay: 0.4, ease: customEase }}
                   className='absolute right-0 top-0 w-[1px] bg-graphite-900'
                 />
                 {/* Shop */}
@@ -113,11 +132,65 @@ export default function Menu({ isOpen, onClose, collections, contactInfo }: Menu
                   </ViewTransitionLink>
                 </motion.div>
 
+                {/* Collections */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.33, ease: customEase }}
+                  className='border-b border-graphite-900'
+                >
+                  <button
+                    onClick={() => setIsCollectionsOpen(!isCollectionsOpen)}
+                    className='py-500 text-center cursor-pointer text-herbik-xl italic block w-full'
+                  >
+                    Collections
+                  </button>
+                  <AnimatePresence>
+                    {isCollectionsOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: customEase }}
+                        className='overflow-hidden'
+                      >
+                        <div className='pb-400'>
+                          {collections.map((collection) => (
+                            <ViewTransitionLink
+                              key={collection.slug.current}
+                              href={`/collections/${collection.slug.current}`}
+                              className='block py-100 text-center text-cutive font-cutive uppercase hover:opacity-70 transition-opacity'
+                              onClick={onClose}
+                            >
+                              {collection.title}
+                            </ViewTransitionLink>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+
+                {/* Projects */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.36, ease: customEase }}
+                >
+                  <ViewTransitionLink
+                    href='/projects'
+                    className='border-b border-graphite-900 py-500 text-center text-herbik-xl italic block'
+                    onClick={onClose}
+                  >
+                    Projects
+                  </ViewTransitionLink>
+                </motion.div>
+
                 {/* About */}
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.35, ease: customEase }}
+                  transition={{ duration: 0.5, delay: 0.39, ease: customEase }}
                 >
                   <ViewTransitionLink
                     href='/about'
@@ -132,7 +205,7 @@ export default function Menu({ isOpen, onClose, collections, contactInfo }: Menu
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.4, ease: customEase }}
+                  transition={{ duration: 0.5, delay: 0.42, ease: customEase }}
                 >
                   <ViewTransitionLink
                     href='/faq'
@@ -148,9 +221,9 @@ export default function Menu({ isOpen, onClose, collections, contactInfo }: Menu
 
                 {/* Contact Footer */}
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 0 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.5, ease: customEase }}
+                  transition={{ duration: 1, delay: 0.5, ease: customEase }}
                   className='text-center'
                 >
                   <p className='mb-400 font-cutive text-cutive uppercase tracking-wide'>

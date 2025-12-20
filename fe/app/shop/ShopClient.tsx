@@ -1,28 +1,35 @@
 "use client"
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useState, useMemo } from "react"
 import { Product, Collection } from "@/lib/types"
 import { motion, AnimatePresence } from "framer-motion"
 import ProductCard from "@/app/components/ProductCard"
-import { setNavigating } from "@/app/components/ViewTransitionLink"
+import PageLayout from "@/app/components/PageLayout"
 
 interface ShopClientProps {
   products: Product[]
   collections: Collection[]
-  selectedCollection?: string
 }
 
 export default function ShopClient({
   products,
   collections,
-  selectedCollection,
 }: ShopClientProps) {
-  const router = useRouter()
   const [view, setView] = useState<"large" | "small">("small")
+  const [selectedCollection, setSelectedCollection] = useState<string | null>(null)
 
   // Custom easing
   const customEase = [0.65, 0.05, 0.36, 1] as [number, number, number, number]
+
+  // Filter products
+  const filteredProducts = useMemo(() => {
+    if (!selectedCollection) {
+      return products
+    }
+    return products.filter(product =>
+      product.collection?.slug.current === selectedCollection
+    )
+  }, [products, selectedCollection])
 
   // Calculate total products count from all collections
   const totalProductsCount = collections.reduce(
@@ -31,52 +38,33 @@ export default function ShopClient({
   )
 
   const handleCollectionFilter = (slug: string | null) => {
-    // Set loading state immediately
-    setNavigating(true)
-
-    // Wait for overlay to be visible, then navigate
-    setTimeout(() => {
-      if (slug) {
-        router.push(`/shop?collection=${slug}`)
-      } else {
-        router.push("/shop")
-      }
-
-      // Keep overlay visible for minimum time to ensure new page renders
-      setTimeout(() => {
-        setNavigating(false)
-      }, 800)
-    }, 150)
+    setSelectedCollection(slug)
   }
 
   // Grid classes based on view
   const gridClasses = {
-    large: "grid-cols-1 md:grid-cols-3",
-    small: "grid-cols-2 md:grid-cols-4",
+    large: "grid-cols-1 md:grid-cols-2",
+    small: "grid-cols-2 md:grid-cols-3",
   }
 
   return (
-    <div className='min-h-screen px-400 pb-1000 pt-[88px]'>
-      <div className='mx-auto max-w-2xl md:max-w-[1400px]'>
+    <div className='min-h-screen pb-1000 pt-[80px] md:pt-[104px]'>
+
+      <PageLayout pattern="with-sidebar" className='px-400 md:px-0'>
         {/* Filters Sidebar */}
-        <div className='mb-800 grid grid-cols-2 gap-600'>
+        <div className='sidebar mb-800 md:mb-0'>
           {/* Collection Filter */}
-          <div>
-            <h3 className='mb-400 text-cutive font-cutive uppercase'>
-              Collection
+          <div className='mb-600'>
+            <h3 className='mb-300 text-cutive font-cutive uppercase'>
+              COLLECTION
             </h3>
-            <div className='flex flex-col'>
+            <div className='flex flex-col gap-100'>
               <button
                 onClick={() => handleCollectionFilter(null)}
-                className='flex items-center gap-200 text-left text-herbik-lg italic cursor-pointer'
+                className='text-left text-herbik-lg italic cursor-pointer'
               >
-                {!selectedCollection ? (
-                  <div className='h-[14px] w-[1px] bg-graphite-900' />
-                ) : (
-                  <div className='w-[1px]' />
-                )}
                 <span
-                  className={`transition-colors duration-300 ${!selectedCollection ? "hover:text-graphite-500" : "text-graphite-300 hover:text-graphite-500"}`}
+                  className={`transition-colors duration-300 pb-200 ${!selectedCollection ? "" : "text-graphite-300 hover:text-graphite-500"}`}
                 >
                   All ({totalProductsCount})
                 </span>
@@ -87,17 +75,12 @@ export default function ShopClient({
                   onClick={() =>
                     handleCollectionFilter(collection.slug.current)
                   }
-                  className='flex items-center gap-200 text-left text-herbik-lg italic cursor-pointer'
+                  className='text-left text-herbik-lg italic cursor-pointer'
                 >
-                  {selectedCollection === collection.slug.current ? (
-                    <div className='h-[14px] w-[1px] bg-graphite-900' />
-                  ) : (
-                    <div className='w-[1px]' />
-                  )}
                   <span
-                    className={`transition-colors duration-300 ${
+                    className={`transition-colors duration-300 pb-200 ${
                       selectedCollection === collection.slug.current
-                        ? "hover:text-graphite-500"
+                        ? ""
                         : "text-graphite-300 hover:text-graphite-500"
                     }`}
                   >
@@ -110,34 +93,24 @@ export default function ShopClient({
 
           {/* View Toggle */}
           <div>
-            <h3 className='mb-400 text-cutive font-cutive uppercase'>View</h3>
-            <div className='flex flex-col'>
+            <h3 className='mb-300 text-cutive font-cutive uppercase'>VIEW</h3>
+            <div className='flex flex-col gap-100'>
               <button
                 onClick={() => setView("large")}
-                className='flex items-center gap-200 text-left text-herbik-lg italic cursor-pointer'
+                className='text-left text-herbik-lg italic cursor-pointer'
               >
-                {view === "large" ? (
-                  <div className='h-[14px] w-[1px] bg-graphite-900' />
-                ) : (
-                  <div className='w-[1px]' />
-                )}
                 <span
-                  className={`transition-colors duration-300 ${view === "large" ? "hover:text-graphite-500" : "text-graphite-300 hover:text-graphite-500"}`}
+                  className={`transition-colors duration-300 pb-200 ${view === "large" ? "" : "text-graphite-300 hover:text-graphite-500"}`}
                 >
                   Large
                 </span>
               </button>
               <button
                 onClick={() => setView("small")}
-                className='flex items-center gap-200 text-left text-herbik-lg italic cursor-pointer'
+                className='text-left text-herbik-lg italic cursor-pointer'
               >
-                {view === "small" ? (
-                  <div className='h-[14px] w-[1px] bg-graphite-900' />
-                ) : (
-                  <div className='w-[1px]' />
-                )}
                 <span
-                  className={`transition-colors duration-300 ${view === "small" ? "hover:text-graphite-500" : "text-graphite-300 hover:text-graphite-500"}`}
+                  className={`transition-colors duration-300 pb-200 ${view === "small" ? "" : "text-graphite-300 hover:text-graphite-500"}`}
                 >
                   Small
                 </span>
@@ -146,36 +119,45 @@ export default function ShopClient({
           </div>
         </div>
 
-        {/* Product Grid */}
-        <div
-          className={`grid gap-x-200 md:gap-x-400 gap-y-600 ${gridClasses[view]}`}
-        >
-          {products.map((product, index) => (
-            <ProductCard
-              key={product._id}
-              product={product}
-              index={index}
-            />
-          ))}
-        </div>
-
-        {/* No Products Message */}
-        <AnimatePresence>
-          {products.length === 0 && (
+        {/* Product Grid Container */}
+        <div>
+          <AnimatePresence mode="wait">
             <motion.div
+              key={selectedCollection || 'all'}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.4, ease: customEase }}
-              className='py-1000 text-center'
+              transition={{ duration: 0.3, ease: customEase }}
+              className={`product-grid ${view} grid ${gridClasses[view]} gap-y-[32px] md:gap-y-[104px] justify-center gap-x-[10px] md:gap-x-1000`}
             >
-              <p className='text-herbik-base italic'>
-                No products found in this collection.
-              </p>
+              {filteredProducts.map((product, index) => (
+                <ProductCard
+                  key={product._id}
+                  product={product}
+                  index={index}
+                />
+              ))}
             </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+          </AnimatePresence>
+
+          {/* No Products Message */}
+          <AnimatePresence>
+            {filteredProducts.length === 0 && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4, ease: customEase }}
+                className='py-1000 text-center'
+              >
+                <p className='text-herbik-base italic'>
+                  No products found in this collection.
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </PageLayout>
     </div>
   )
 }

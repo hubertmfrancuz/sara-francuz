@@ -6,7 +6,6 @@ import Header from "./Header"
 import Footer from "./Footer"
 import Cart from "./Cart"
 import LoadingScreen from "./LoadingScreen"
-import SmoothScroll from "./SmoothScroll"
 import NavigationOverlay from "./NavigationOverlay"
 import { useIsNavigating } from "./ViewTransitionLink"
 
@@ -56,23 +55,14 @@ export default function ClientLayout({
 
   return (
     <>
-      {/* Smooth Scroll */}
-      <SmoothScroll />
-
       {/* Navigation Overlay */}
       <NavigationOverlay />
 
       {isLoading && <LoadingScreen onComplete={handleLoadingComplete} />}
 
-      {/* Header - always visible, never animates */}
+      {/* Header - has its own animation */}
       {showContent && (
-        <motion.div
-          initial={{ opacity: 1 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0 }}
-        >
-          <Header collections={collections} contactInfo={contactInfo} />
-        </motion.div>
+        <Header collections={collections} contactInfo={contactInfo} />
       )}
 
       <AnimatePresence mode="wait">
@@ -94,7 +84,7 @@ export default function ClientLayout({
               animate={{ opacity: isNavigating ? 0 : 1 }}
               transition={{ duration: isNavigating ? 0.15 : 0.5, delay: isNavigating ? 0 : 0.3 }}
             >
-              <Footer />
+              <Footer collections={collections} contactInfo={contactInfo} />
             </motion.div>
           </>
         )}

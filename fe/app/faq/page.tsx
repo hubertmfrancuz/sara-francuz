@@ -1,4 +1,5 @@
 import { client } from '@/lib/sanity'
+import PageLayout from '@/app/components/PageLayout'
 import FAQClient from './FAQClient'
 
 interface FAQEntry {
@@ -33,23 +34,23 @@ export default async function FAQPage() {
 
   if (!faqData) {
     return (
-      <div className='min-h-screen pt-[88px]'>
-        <div className='mx-auto max-w-2xl px-400 pb-1000'>
+      <div className='min-h-screen pt-[80px] md:pt-[104px] pb-1000 px-400 md:px-0'>
+        <PageLayout pattern="centered-narrow">
           <p className='text-herbik-base'>FAQ page content not found.</p>
-        </div>
+        </PageLayout>
       </div>
     )
   }
 
   return (
-    <div className='min-h-screen pt-[88px]'>
-      <div className='mx-auto max-w-2xl px-400 pb-1000 md:max-w-[1400px]'>
+    <div className='min-h-screen pt-[80px] md:pt-[104px] pb-1000 px-400 md:px-0'>
+      <PageLayout pattern="centered-narrow">
         {/* Page Title */}
         <h1 className='mb-800 text-herbik-xl italic'>{faqData.title}</h1>
 
         {/* FAQ Entries */}
         <FAQClient faqEntries={faqData.faqEntries} />
-      </div>
+      </PageLayout>
     </div>
   )
 }

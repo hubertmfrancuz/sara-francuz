@@ -39,14 +39,14 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
               left: "50%",
               transform: "translateX(-50%)",
               width: "100%",
-              maxWidth: "600px",
+              maxWidth: "500px",
               height: "100vh",
             }}
             exit={{
               position: "fixed",
               left: "50%",
               width: "100%",
-              maxWidth: "600px",
+              maxWidth: "500px",
               height: "48px",
             }}
             transition={{ duration: 0.8, ease: customEase }}

@@ -68,7 +68,7 @@ export default function Cart({ contactInfo }: CartProps) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4, ease: customEase }}
             onClick={closeCart}
-            className='fixed inset-0 z-[998] bg-black mix-blend-hue'
+            className='fixed inset-0 z-[10004] bg-black mix-blend-hue'
           />
           <motion.div
             initial={{ opacity: 0 }}
@@ -76,7 +76,7 @@ export default function Cart({ contactInfo }: CartProps) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4, ease: customEase }}
             onClick={closeCart}
-            className='fixed inset-0 z-[997] bg-yellow-700'
+            className='fixed inset-0 z-[10003] bg-yellow-700'
           />
 
           {/* Cart Drawer */}
@@ -85,11 +85,11 @@ export default function Cart({ contactInfo }: CartProps) {
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
             transition={{ duration: 0.7, ease: customEase }}
-            className='px-400 py-300 fixed bottom-0 left-0 right-0 z-[999] mx-auto max-w-[600px] bg-yellow-200'
+            className='px-400 py-300 fixed bottom-0 left-0 right-0 z-[10004] mx-auto max-w-[500px] bg-yellow-200'
           >
             <div className='border-l border-r'>
               {/* Header */}
-              <div className='flex items-center justify-between px-400 pb-600'>
+              <div className='flex items-center justify-between px-400 pt-100 pb-600'>
                 <h2 className='text-herbik-base italic'>Cart ({totalItems})</h2>
                 <button
                   onClick={closeCart}
@@ -107,9 +107,9 @@ export default function Cart({ contactInfo }: CartProps) {
                     Cart is empty
                   </p>
                 ) : (
-                  <div className='flex flex-col gap-400'>
+                  <div className='flex flex-col gap-300'>
                     {items.map(item => (
-                      <div key={item._id} className='pb-400 border-b'>
+                      <div key={item._id} className='pb-300 border-b border-graphite-300'>
                         <div className='mb-200 flex items-start justify-between'>
                           <div className='flex-1'>
                             <h3 className='text-cutive font-cutive uppercase'>

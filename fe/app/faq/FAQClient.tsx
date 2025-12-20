@@ -25,7 +25,7 @@ export default function FAQClient({ faqEntries }: FAQClientProps) {
         <div key={index} className='border-t border-graphite-300'>
           <button
             onClick={() => toggleFAQ(index)}
-            className='flex w-full items-start justify-between py-400 text-left cursor-pointer'
+            className='flex w-full items-start justify-between py-200 text-left cursor-pointer'
           >
             <span className='text-cutive font-cutive uppercase pr-400'>
               {entry.question}
@@ -44,7 +44,11 @@ export default function FAQClient({ faqEntries }: FAQClientProps) {
                 transition={{ duration: 0.3, ease: [0.65, 0.05, 0.36, 1] }}
                 className='overflow-hidden'
               >
-                <div className='pb-400 text-herbik-sm'>{entry.answer}</div>
+                <div className='pb-400 text-herbik-base [&>p]:indent-900'>
+                  {entry.answer.split('\n\n').map((paragraph, idx) => (
+                    <p key={idx}>{paragraph}</p>
+                  ))}
+                </div>
               </motion.div>
             )}
           </AnimatePresence>

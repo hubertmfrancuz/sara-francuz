@@ -47,16 +47,35 @@ export async function POST(request: NextRequest) {
         }
         revalidateTag('products', 'max')
         revalidatePath('/shop', 'page')
-        // Also revalidate home page since products can be featured there
+        // Only revalidate home if product is featured (check body.isFeatured or always revalidate to be safe)
         revalidateTag('home-page', 'max')
-        revalidatePath('/', 'page')
         break
 
       case 'collection':
-        // Revalidate collections
+        // Revalidate collections list and specific collection page
+        if (slug) {
+          revalidateTag('collection-detail', 'max')
+          revalidatePath(`/collections/${slug}`, 'page')
+        }
         revalidateTag('collections', 'max')
-        revalidatePath('/', 'page')
         revalidatePath('/shop', 'page')
+        revalidateTag('home-page', 'max')
+        break
+
+      case 'project':
+        // Revalidate specific project and all projects
+        if (slug) {
+          revalidateTag(`project-${slug}`, 'max')
+          revalidatePath(`/projects/${slug}`, 'page')
+        }
+        revalidateTag('projects', 'max')
+        revalidatePath('/projects', 'page')
+        break
+
+      case 'projectCategory':
+        // Revalidate project categories and projects page
+        revalidateTag('projectCategories', 'max')
+        revalidatePath('/projects', 'page')
         break
 
       default:
@@ -66,6 +85,9 @@ export async function POST(request: NextRequest) {
         revalidateTag('faq-page', 'max')
         revalidateTag('products', 'max')
         revalidateTag('collections', 'max')
+        revalidateTag('collection-detail', 'max')
+        revalidateTag('projects', 'max')
+        revalidateTag('projectCategories', 'max')
         revalidatePath('/', 'page')
     }
 
