@@ -18,17 +18,27 @@ export default defineType({
       type: 'hero',
     },
     {
-      name: 'featuredCollection',
-      title: 'Featured Collection Section',
-      type: 'featuredCollection',
-      description: 'Showcase a collection with hero image and selected products',
-    },
-    {
       name: 'contentBlocks',
       title: 'Content Blocks',
       type: 'array',
-      of: [{type: 'contentBlock'}],
-      description: 'Add blocks to showcase projects, collections, or featured items',
+      of: [
+        {type: 'imageBlock'},
+        {type: 'textBlock'},
+      ],
+      description: 'Add editorial blocks with images and text',
+    },
+    {
+      name: 'featuredProducts',
+      title: 'Featured Products',
+      type: 'array',
+      description: 'Products to feature on the homepage (up to 4)',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'product'}],
+        },
+      ],
+      validation: (Rule) => Rule.max(4),
     },
     {
       name: 'seo',

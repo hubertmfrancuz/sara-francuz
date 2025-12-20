@@ -14,44 +14,52 @@ export const homePageQuery = groq`
         asset-> {
           ...
         },
+        hotspot,
+        crop,
         alt
       },
       linkUrl,
       linkText,
       alt
     },
-    featuredCollection {
-      title,
-      linkUrl,
-      heroImage {
-        asset-> {
-          ...
-        },
-        alt
-      },
-      featuredProducts[]-> {
-        _id,
-        title,
-        handle,
-        price,
-        images[] {
-          asset-> {
-            ...
-          },
-          alt
-        }
-      }
-    },
     contentBlocks[] {
+      _type,
+      _key,
       title,
-      description,
+      content,
+      buttonText,
+      linkType,
+      url,
       image {
         asset-> {
           ...
         },
+        hotspot,
+        crop,
+        alt
       },
-      linkUrl,
-      linkText
+      productReference-> {
+        handle
+      },
+      collectionReference-> {
+        slug
+      },
+      size,
+      alignment,
+      orientation,
+      mobileAlignment
+    },
+    featuredProducts[]-> {
+      _id,
+      title,
+      handle,
+      price,
+      images[] {
+        asset-> {
+          ...
+        },
+        alt
+      }
     },
     seo {
       metaTitle,
@@ -159,5 +167,150 @@ export const contactInfoQuery = groq`
   *[_type == "aboutPage"][0] {
     contactEmail,
     instagramHandle
+  }
+`
+
+export const projectsQuery = groq`
+  *[_type == "project"] | order(order asc) {
+    _id,
+    title,
+    handle,
+    mainImage {
+      asset-> {
+        ...
+      },
+      hotspot,
+      crop,
+      alt
+    },
+    category-> {
+      title,
+      slug
+    },
+    date
+  }
+`
+
+export const projectCategoriesQuery = groq`
+  {
+    "categories": *[_type == "projectCategory"] | order(order asc) {
+      title,
+      slug,
+      "count": count(*[_type == "project" && references(^._id)])
+    }
+  }
+`
+
+export const projectQuery = groq`
+  *[_type == "project" && handle.current == $handle][0] {
+    _id,
+    title,
+    handle,
+    description,
+    mainImage {
+      asset-> {
+        ...
+      },
+      hotspot,
+      crop,
+      alt
+    },
+    category-> {
+      title,
+      slug
+    },
+    date,
+    images[] {
+      image {
+        asset-> {
+          ...
+        },
+        hotspot,
+        crop,
+        alt
+      },
+      caption,
+      orientation
+    },
+    credits
+  }
+`
+
+export const relatedProjectsQuery = groq`
+  *[_type == "project" && category->slug.current == $categorySlug && handle.current != $handle] | order(order asc) [0...4] {
+    _id,
+    title,
+    handle,
+    mainImage {
+      asset-> {
+        ...
+      },
+      hotspot,
+      crop,
+      alt
+    },
+    category-> {
+      title,
+      slug
+    },
+    date
+  }
+`
+
+export const collectionDetailQuery = groq`
+  *[_type == "collection" && slug.current == $slug][0] {
+    _id,
+    title,
+    description,
+    slug,
+    "products": *[_type == "product" && references(^._id)] {
+      _id,
+      title,
+      handle,
+      price,
+      images[] {
+        asset-> {
+          ...
+        },
+        alt
+      }
+    },
+    contentBlocks[] {
+      _type,
+      _key,
+      _type == 'collectionTextBlock' => {
+        text
+      },
+      _type == 'collectionImageBlock' => {
+        image {
+          asset-> {
+            ...
+          },
+          hotspot,
+          crop,
+          alt
+        },
+        caption,
+        linkedProduct-> {
+          handle
+        },
+        size,
+        alignment,
+        orientation,
+        mobileAlignment
+      }
+    },
+    featuredProducts[]-> {
+      _id,
+      title,
+      handle,
+      price,
+      images[] {
+        asset-> {
+          ...
+        },
+        alt
+      }
+    }
   }
 `

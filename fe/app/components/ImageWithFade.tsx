@@ -10,6 +10,7 @@ interface ImageWithFadeProps extends ImageProps {
 export default function ImageWithFade({ onLoadComplete, ...props }: ImageWithFadeProps) {
   const [isLoaded, setIsLoaded] = useState(false)
   const hasCalledCallback = useRef(false)
+  const loadTimeoutRef = useRef<NodeJS.Timeout>()
 
   const handleLoad = () => {
     setIsLoaded(true)
@@ -24,12 +25,30 @@ export default function ImageWithFade({ onLoadComplete, ...props }: ImageWithFad
   useEffect(() => {
     // Reset the callback flag when the src changes
     hasCalledCallback.current = false
+    setIsLoaded(false)
+
+    // Safety timeout: if image doesn't load within 100ms, show it anyway
+    // This handles cases where cached images don't fire events
+    loadTimeoutRef.current = setTimeout(() => {
+      if (!isLoaded) {
+        handleLoad()
+      }
+    }, 100)
+
+    return () => {
+      if (loadTimeoutRef.current) {
+        clearTimeout(loadTimeoutRef.current)
+      }
+    }
   }, [props.src])
 
   return (
     <Image
       {...props}
       onLoad={(e) => {
+        if (loadTimeoutRef.current) {
+          clearTimeout(loadTimeoutRef.current)
+        }
         handleLoad()
         // Call original onLoad if provided
         if (props.onLoad) {
@@ -37,6 +56,9 @@ export default function ImageWithFade({ onLoadComplete, ...props }: ImageWithFad
         }
       }}
       onLoadingComplete={() => {
+        if (loadTimeoutRef.current) {
+          clearTimeout(loadTimeoutRef.current)
+        }
         // This fires for both cached and fresh images
         handleLoad()
       }}

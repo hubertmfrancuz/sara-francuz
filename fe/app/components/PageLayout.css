@@ -1,0 +1,56 @@
+.page-layout {
+  --gutter: 16px;
+  --inset: 24px;
+  --columns: 24;
+  --column: calc((100vw - (var(--inset) * 2) - ((var(--columns) - 1) * var(--gutter))) / var(--columns));
+}
+
+@media (min-width: 768px) {
+  .page-layout.with-sidebar {
+    position: relative;
+  }
+
+  .page-layout.with-sidebar .sidebar {
+    position: fixed;
+    left: var(--inset);
+    top: 104px;
+    width: calc(var(--column) * 4 + var(--gutter) * 3);
+  }
+
+  .page-layout.with-sidebar > :not(.sidebar) {
+    max-width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+
+  .page-layout.centered-narrow {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 850px;
+    padding-left: var(--inset);
+    padding-right: var(--inset);
+  }
+
+  .page-layout.product-detail {
+    margin-left: var(--inset);
+    margin-right: var(--inset);
+    display: grid;
+    grid-template-columns: calc(var(--column) * 4 + var(--gutter) * 3) calc(var(--column) * 16 + var(--gutter) * 15);
+    gap: var(--gutter);
+  }
+
+  .page-layout.full-width {
+    margin-left: var(--inset);
+    margin-right: var(--inset);
+  }
+}
+
+.page-layout.product-detail .product-info {
+  position: sticky;
+  top: 108px;
+  align-self: start;
+  max-height: calc(100vh - 108px);
+  display: flex;
+  flex-direction: column;
+}
