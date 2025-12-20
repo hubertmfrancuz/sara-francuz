@@ -3,6 +3,7 @@ import PageLayout from "@/app/components/PageLayout"
 import { client } from "@/lib/sanity"
 import { urlFor } from "@/lib/sanity"
 import { PortableText } from "@portabletext/react"
+import { Metadata } from "next"
 
 interface AboutPage {
   title: string
@@ -34,6 +35,21 @@ const aboutPageQuery = `*[_type == "aboutPage"][0] {
 
 // Revalidate every hour, or instantly via webhook
 export const revalidate = 3600
+
+export async function generateMetadata(): Promise<Metadata> {
+  const aboutData: AboutPage | null = await client.fetch(
+    aboutPageQuery,
+    {},
+    {
+      next: { revalidate: 3600, tags: ['about-page'] }
+    }
+  )
+
+  return {
+    title: aboutData?.title ? `${aboutData.title} - Sara Francuz` : "About - Sara Francuz",
+    description: "Object and spatial designer",
+  }
+}
 
 export default async function AboutPage() {
   const aboutData: AboutPage | null = await client.fetch(

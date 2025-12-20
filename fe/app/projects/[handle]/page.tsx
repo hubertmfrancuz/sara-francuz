@@ -3,9 +3,36 @@ import {projectQuery, relatedProjectsQuery, projectsQuery} from '@/lib/queries'
 import {Project} from '@/lib/types'
 import ProjectClient from './ProjectClient'
 import {notFound} from 'next/navigation'
+import { Metadata } from 'next'
 
 // Revalidate every hour, or instantly via webhook
 export const revalidate = 3600
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{handle: string}>
+}): Promise<Metadata> {
+  const {handle} = await params
+  const project: Project | null = await client.fetch(
+    projectQuery,
+    { handle },
+    {
+      next: { revalidate: 3600, tags: ['project', `project-${handle}`] }
+    }
+  )
+
+  if (!project) {
+    return {
+      title: "Project Not Found - Sara Francuz",
+    }
+  }
+
+  return {
+    title: `${project.title} - Sara Francuz`,
+    description: project.description || `${project.title} - A design project by Sara Francuz`,
+  }
+}
 
 // Generate static paths for all projects at build time
 export async function generateStaticParams() {

@@ -1,6 +1,7 @@
 import { client } from '@/lib/sanity'
 import PageLayout from '@/app/components/PageLayout'
 import FAQClient from './FAQClient'
+import { Metadata } from 'next'
 
 interface FAQEntry {
   question: string
@@ -22,6 +23,13 @@ const faqPageQuery = `*[_type == "faqPage"][0] {
 
 // Revalidate every hour, or instantly via webhook
 export const revalidate = 3600
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "FAQ - Sara Francuz",
+    description: "Frequently asked questions about Sara Francuz products and services",
+  }
+}
 
 export default async function FAQPage() {
   const faqData: FAQPage | null = await client.fetch(
