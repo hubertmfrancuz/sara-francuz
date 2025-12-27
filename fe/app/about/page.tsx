@@ -15,6 +15,7 @@ interface AboutPage {
     }
     alt?: string
   }
+  imageCaption?: string
   contactEmail: string
   instagramHandle: string
 }
@@ -29,6 +30,7 @@ const aboutPageQuery = `*[_type == "aboutPage"][0] {
     },
     alt
   },
+  imageCaption,
   contactEmail,
   instagramHandle
 }`
@@ -116,7 +118,9 @@ export default async function AboutPage() {
                 className='object-cover'
               />
             </div>
-            <p className='w-full text-left text-herbik-sm indent-6'>Photo by Emi</p>
+            {aboutData.imageCaption && (
+              <p className='w-full text-left text-herbik-sm indent-6'>{aboutData.imageCaption}</p>
+            )}
           </div>
         )}
       </PageLayout>

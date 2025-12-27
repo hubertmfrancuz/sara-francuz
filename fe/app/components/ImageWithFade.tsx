@@ -11,7 +11,7 @@ interface ImageWithFadeProps extends ImageProps {
 export default function ImageWithFade({ onLoadComplete, lqip, ...props }: ImageWithFadeProps) {
   const [isLoaded, setIsLoaded] = useState(false)
   const hasCalledCallback = useRef(false)
-  const loadTimeoutRef = useRef<NodeJS.Timeout>()
+  const loadTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
 
   const handleLoad = () => {
     setIsLoaded(true)

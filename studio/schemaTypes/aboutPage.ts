@@ -42,6 +42,12 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'imageCaption',
+      title: 'Image Caption',
+      type: 'string',
+      description: 'Caption displayed below the about image (e.g., "Photo by Emi")',
+    }),
+    defineField({
       name: 'contactEmail',
       title: 'Contact Email',
       type: 'string',
