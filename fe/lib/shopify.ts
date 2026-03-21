@@ -35,7 +35,7 @@ export async function createShopifyCart(items: CartItem[]): Promise<string> {
   `
 
   const response = await fetch(
-    `https://${domain}/api/2024-01/graphql.json`,
+    `https://${domain}/api/2026-01/graphql.json`,
     {
       method: 'POST',
       headers: {
