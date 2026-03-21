@@ -145,6 +145,17 @@ export interface Product {
   properties?: ProductProperty[]
   description?: string
   careInstructions?: string
+  shopifyVariantId?: string
+}
+
+export interface ShopifyCartCreateResponse {
+  data: {
+    cartCreate: {
+      cart: { checkoutUrl: string }
+      userErrors: { field: string[]; message: string }[]
+    }
+  }
+  errors?: { message: string }[]
 }
 
 export interface ContactInfo {

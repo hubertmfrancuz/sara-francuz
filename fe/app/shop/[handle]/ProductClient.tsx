@@ -43,6 +43,7 @@ export default function ProductClient({
       title: product.title,
       price: product.price,
       handle: product.handle.current,
+      shopifyVariantId: product.shopifyVariantId,
     })
     openCart()
   }
@@ -109,7 +110,7 @@ export default function ProductClient({
                 onClick={handleAddToInquiry}
                 className='mt-600 flex justify-between py-400 px-400 w-full text-left text-cutive font-cutive bg-yellow-200 transition-all hover:bg-yellow-300 cursor-pointer'
               >
-                <span>| ADD TO INQUIRY +</span>
+                <span>| ADD TO CART +</span>
                 <span>{product.price.toFixed(2)} PLN</span>
               </button>
             </div>

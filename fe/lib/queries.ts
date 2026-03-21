@@ -57,9 +57,10 @@ export const homePageQuery = groq`
     },
     featuredProducts[]-> {
       _id,
-      title,
+      "title": coalesce(store.title, title),
       handle,
-      price,
+      "price": store.priceRange.minVariantPrice,
+      "shopifyVariantId": store.variants[0]->.store.gid,
       images[] {
         asset-> {
           ...,
@@ -87,9 +88,10 @@ export const collectionsQuery = groq`
 export const productsQuery = groq`
   *[_type == "product"] | order(order asc) {
     _id,
-    title,
+    "title": coalesce(store.title, title),
     handle,
-    price,
+    "price": store.priceRange.minVariantPrice,
+    "shopifyVariantId": store.variants[0]->.store.gid,
     images[] {
       asset-> {
         ...
@@ -106,9 +108,10 @@ export const productsQuery = groq`
 export const productsByCollectionQuery = groq`
   *[_type == "product" && collection->slug.current == $collectionSlug] | order(order asc) {
     _id,
-    title,
+    "title": coalesce(store.title, title),
     handle,
-    price,
+    "price": store.priceRange.minVariantPrice,
+    "shopifyVariantId": store.variants[0]->.store.gid,
     images[] {
       asset-> {
         ...
@@ -125,9 +128,10 @@ export const productsByCollectionQuery = groq`
 export const productQuery = groq`
   *[_type == "product" && handle.current == $handle][0] {
     _id,
-    title,
+    "title": coalesce(store.title, title),
     handle,
-    price,
+    "price": store.priceRange.minVariantPrice,
+    "shopifyVariantId": store.variants[0]->.store.gid,
     images[] {
       asset-> {
         ...
@@ -150,9 +154,10 @@ export const productQuery = groq`
 export const relatedProductsQuery = groq`
   *[_type == "product" && collection->slug.current == $collectionSlug && handle.current != $handle] | order(order asc) [0...4] {
     _id,
-    title,
+    "title": coalesce(store.title, title),
     handle,
-    price,
+    "price": store.priceRange.minVariantPrice,
+    "shopifyVariantId": store.variants[0]->.store.gid,
     images[] {
       asset-> {
         ...
@@ -286,9 +291,10 @@ export const collectionDetailQuery = groq`
     slug,
     "products": *[_type == "product" && references(^._id)] {
       _id,
-      title,
+      "title": coalesce(store.title, title),
       handle,
-      price,
+      "price": store.priceRange.minVariantPrice,
+      "shopifyVariantId": store.variants[0]->.store.gid,
       images[] {
         asset-> {
           ...,
@@ -326,9 +332,10 @@ export const collectionDetailQuery = groq`
     },
     featuredProducts[]-> {
       _id,
-      title,
+      "title": coalesce(store.title, title),
       handle,
-      price,
+      "price": store.priceRange.minVariantPrice,
+      "shopifyVariantId": store.variants[0]->.store.gid,
       images[] {
         asset-> {
           ...,
