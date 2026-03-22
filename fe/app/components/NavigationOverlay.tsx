@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { motion, AnimatePresence } from "framer-motion"
-import { useIsNavigating } from "./ViewTransitionLink"
+import { motion, AnimatePresence } from "framer-motion";
+import { useIsNavigating } from "./ViewTransitionLink";
 
 export default function NavigationOverlay() {
-  const isNavigating = useIsNavigating()
+  const isNavigating = useIsNavigating();
 
   return (
     <AnimatePresence mode="wait">
@@ -14,12 +14,12 @@ export default function NavigationOverlay() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{
-            opacity: { duration: 0.2, ease: "easeInOut" }
+            opacity: { duration: 0.2, ease: "easeInOut" },
           }}
-          className="fixed inset-0 z-[9999] bg-yellow-100"
+          className="fixed inset-0 z-[9999] bg-yellow-200"
           style={{ pointerEvents: "none" }}
         />
       )}
     </AnimatePresence>
-  )
+  );
 }
