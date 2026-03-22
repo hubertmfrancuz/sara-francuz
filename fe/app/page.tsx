@@ -7,6 +7,7 @@ import { HomePage } from "@/lib/types";
 import ImageBlock from "@/app/components/ImageBlock";
 import TextBlock from "@/app/components/TextBlock";
 import HeroVideo from "@/app/components/HeroVideo";
+import ImageGridBlock from "@/app/components/ImageGridBlock";
 import "@/app/components/EditorialGrid.css";
 
 // Revalidate every hour, or instantly via webhook
@@ -99,6 +100,8 @@ export default async function Home() {
                   return <ImageBlock key={index} block={block} />;
                 case "textBlock":
                   return <TextBlock key={index} block={block} />;
+                case "imageGridBlock":
+                  return <ImageGridBlock key={index} block={block} />;
                 default:
                   return null;
               }

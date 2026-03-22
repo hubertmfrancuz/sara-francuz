@@ -24,6 +24,7 @@ export default defineType({
       of: [
         {type: 'imageBlock'},
         {type: 'textBlock'},
+        {type: 'imageGridBlock'},
       ],
       description: 'Add editorial blocks with images and text',
     },

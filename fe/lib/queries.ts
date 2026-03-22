@@ -33,6 +33,9 @@ export const homePageQuery = groq`
       buttonText,
       linkType,
       url,
+      video {
+        asset-> { url }
+      },
       image {
         asset-> {
           ...,
@@ -53,7 +56,36 @@ export const homePageQuery = groq`
       size,
       alignment,
       orientation,
-      mobileAlignment
+      mobileAlignment,
+      _type == 'imageGridBlock' => {
+        columns,
+        items[] {
+          _type,
+          _key,
+          title,
+          video {
+            asset-> { url }
+          },
+          image {
+            asset-> {
+              ...,
+              metadata { lqip }
+            },
+            hotspot,
+            crop,
+            alt
+          },
+          buttonText,
+          linkType,
+          url,
+          productReference-> { handle },
+          collectionReference-> { slug },
+          size,
+          alignment,
+          orientation,
+          mobileAlignment
+        }
+      }
     },
     featuredProducts[]-> {
       _id,

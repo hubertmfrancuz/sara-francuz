@@ -13,7 +13,7 @@
 
 @media (min-width: 768px) {
   .editorial-grid {
-    --inset: 24px;
+    --inset: 32px;
     gap: 136px 16px;
   }
 }

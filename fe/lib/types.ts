@@ -48,6 +48,7 @@ export interface ContentBlock {
 export interface ImageBlock {
   _type: 'imageBlock'
   title: string
+  video?: { asset: { url: string } }
   image: SanityImage
   buttonText: string
   linkType: 'url' | 'product' | 'collection'
@@ -93,7 +94,13 @@ export interface FeaturedCollectionBlock {
   products: Product[]
 }
 
-export type EditorialBlock = ImageBlock | TextBlock
+export interface ImageGridBlock {
+  _type: 'imageGridBlock'
+  columns: 2 | 3 | 4
+  items: ImageBlock[]
+}
+
+export type EditorialBlock = ImageBlock | TextBlock | ImageGridBlock
 
 export interface SEO {
   metaTitle?: string
