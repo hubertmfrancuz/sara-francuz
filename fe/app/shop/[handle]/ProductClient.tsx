@@ -195,6 +195,7 @@ export default function ProductClient({
                           src={urlFor(image).url()}
                           alt={image.alt || product.title}
                           fill
+                          sizes="(max-width: 768px) 100vw, 50vw"
                           className='object-cover'
                           priority={index < 2}
                         />
@@ -232,6 +233,7 @@ export default function ProductClient({
                         src={urlFor(image).url()}
                         alt={image.alt || product.title}
                         fill
+                        sizes={isFullWidth ? '58vw' : '29vw'}
                         className='object-cover'
                         priority={index === 0}
                       />
@@ -273,6 +275,7 @@ export default function ProductClient({
                               src={urlFor(relatedProduct.images[0]).url()}
                               alt={relatedProduct.images[0].alt || relatedProduct.title}
                               fill
+                              sizes="80vw"
                               className='object-cover transition-opacity duration-300 group-hover:opacity-80'
                             />
                           )}
@@ -306,6 +309,7 @@ export default function ProductClient({
                           src={urlFor(relatedProduct.images[0]).url()}
                           alt={relatedProduct.images[0].alt || relatedProduct.title}
                           fill
+                          sizes="140px"
                           className='object-cover transition-opacity duration-300 group-hover:opacity-80'
                         />
                       )}

@@ -23,6 +23,7 @@ export default function CollectionImageBlock({ block }: CollectionImageBlockProp
           src={urlFor(block.image).url()}
           alt={block.image.alt || 'Collection image'}
           fill
+          sizes="(max-width: 768px) 100vw, 50vw"
           className='object-cover transition-opacity duration-300 group-hover:opacity-50'
         />
       </div>

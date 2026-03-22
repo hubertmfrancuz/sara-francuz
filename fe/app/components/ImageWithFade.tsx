@@ -53,17 +53,9 @@ export default function ImageWithFade({ onLoadComplete, lqip, ...props }: ImageW
           clearTimeout(loadTimeoutRef.current)
         }
         handleLoad()
-        // Call original onLoad if provided
         if (props.onLoad) {
           props.onLoad(e)
         }
-      }}
-      onLoadingComplete={() => {
-        if (loadTimeoutRef.current) {
-          clearTimeout(loadTimeoutRef.current)
-        }
-        // This fires for both cached and fresh images
-        handleLoad()
       }}
       className={`transition-opacity duration-700 ease-out ${
         isLoaded ? 'opacity-100' : 'opacity-0'

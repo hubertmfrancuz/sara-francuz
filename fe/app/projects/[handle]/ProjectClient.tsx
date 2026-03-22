@@ -73,6 +73,7 @@ export default function ProjectClient({
                           src={urlFor(item.image).url()}
                           alt={item.image.alt || project.title}
                           fill
+                          sizes="(max-width: 768px) 50vw, 400px"
                           className='object-cover'
                         />
                       </div>
@@ -90,6 +91,7 @@ export default function ProjectClient({
                           src={urlFor(nextItem.image).url()}
                           alt={nextItem.image.alt || project.title}
                           fill
+                          sizes="(max-width: 768px) 50vw, 400px"
                           className='object-cover'
                         />
                       </div>
@@ -113,6 +115,7 @@ export default function ProjectClient({
                       src={urlFor(item.image).url()}
                       alt={item.image.alt || project.title}
                       fill
+                      sizes="(max-width: 768px) 100vw, 800px"
                       className='object-cover'
                     />
                   </div>
@@ -158,6 +161,7 @@ export default function ProjectClient({
                         src={urlFor(relatedProject.mainImage).url()}
                         alt={relatedProject.mainImage.alt || relatedProject.title}
                         fill
+                        sizes="(max-width: 768px) 50vw, 33vw"
                         className='object-cover transition-opacity duration-300 group-hover:opacity-80'
                       />
                     )}

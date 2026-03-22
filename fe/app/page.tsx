@@ -143,6 +143,7 @@ export default async function Home() {
                             src={urlFor(product.images[0]).url()}
                             alt={product.images[0].alt || product.title}
                             fill
+                            sizes="80vw"
                             className="object-cover transition-opacity duration-300 group-hover:opacity-80"
                           />
                         )}
@@ -176,6 +177,7 @@ export default async function Home() {
                         src={urlFor(product.images[0]).url()}
                         alt={product.images[0].alt || product.title}
                         fill
+                        sizes="140px"
                         className="object-cover transition-opacity duration-300 group-hover:opacity-80"
                       />
                     )}

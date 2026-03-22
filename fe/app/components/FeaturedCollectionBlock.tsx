@@ -21,6 +21,7 @@ export default function FeaturedCollectionBlock({ block }: FeaturedCollectionBlo
           src={urlFor(block.image).url()}
           alt={block.image.alt || block.title}
           fill
+          sizes="100vw"
           className='object-cover'
         />
       </div>
@@ -61,6 +62,7 @@ export default function FeaturedCollectionBlock({ block }: FeaturedCollectionBlo
                           src={urlFor(product.images[0]).url()}
                           alt={product.images[0].alt || product.title}
                           fill
+                          sizes="80vw"
                           className='object-cover transition-opacity duration-300 group-hover:opacity-80'
                         />
                       )}
@@ -94,6 +96,7 @@ export default function FeaturedCollectionBlock({ block }: FeaturedCollectionBlo
                       src={urlFor(product.images[0]).url()}
                       alt={product.images[0].alt || product.title}
                       fill
+                      sizes="140px"
                       className='object-cover transition-opacity duration-300 group-hover:opacity-80'
                     />
                   )}

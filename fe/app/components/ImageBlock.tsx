@@ -41,6 +41,7 @@ export default function ImageBlock({ block }: ImageBlockProps) {
               src={urlFor(block.image).url()}
               alt={block.image.alt || block.title}
               fill
+              sizes="(max-width: 768px) 100vw, 50vw"
               className='object-cover transition-opacity duration-300 group-hover:opacity-50'
             />
           )}
