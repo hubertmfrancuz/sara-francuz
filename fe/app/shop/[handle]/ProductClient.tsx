@@ -43,6 +43,7 @@ export default function ProductClient({
       title: product.title,
       price: product.price,
       handle: product.handle.current,
+      shopifyVariantId: product.shopifyVariantId,
     })
     openCart()
   }
@@ -109,7 +110,7 @@ export default function ProductClient({
                 onClick={handleAddToInquiry}
                 className='mt-600 flex justify-between py-400 px-400 w-full text-left text-cutive font-cutive bg-yellow-200 transition-all hover:bg-yellow-300 cursor-pointer'
               >
-                <span>| ADD TO INQUIRY +</span>
+                <span>| ADD TO CART +</span>
                 <span>{product.price.toFixed(2)} PLN</span>
               </button>
             </div>
@@ -194,6 +195,7 @@ export default function ProductClient({
                           src={urlFor(image).url()}
                           alt={image.alt || product.title}
                           fill
+                          sizes="(max-width: 768px) 100vw, 50vw"
                           className='object-cover'
                           priority={index < 2}
                         />
@@ -231,6 +233,7 @@ export default function ProductClient({
                         src={urlFor(image).url()}
                         alt={image.alt || product.title}
                         fill
+                        sizes={isFullWidth ? '58vw' : '29vw'}
                         className='object-cover'
                         priority={index === 0}
                       />
@@ -272,6 +275,7 @@ export default function ProductClient({
                               src={urlFor(relatedProduct.images[0]).url()}
                               alt={relatedProduct.images[0].alt || relatedProduct.title}
                               fill
+                              sizes="80vw"
                               className='object-cover transition-opacity duration-300 group-hover:opacity-80'
                             />
                           )}
@@ -305,6 +309,7 @@ export default function ProductClient({
                           src={urlFor(relatedProduct.images[0]).url()}
                           alt={relatedProduct.images[0].alt || relatedProduct.title}
                           fill
+                          sizes="140px"
                           className='object-cover transition-opacity duration-300 group-hover:opacity-80'
                         />
                       )}

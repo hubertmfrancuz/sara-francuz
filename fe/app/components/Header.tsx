@@ -96,7 +96,7 @@ export default function Header({ collections, contactInfo }: HeaderProps) {
             </button>
 
             {/* Center: Logo/Title - Absolutely positioned */}
-            <ViewTransitionLink href='/' className='text-herbik-lg absolute left-1/2 -translate-x-1/2'>
+            <ViewTransitionLink href='/' className='font-[family-name:var(--font-dm-sans)] font-light text-[21px] absolute left-1/2 -translate-x-1/2'>
               Sara Francuz
             </ViewTransitionLink>
 

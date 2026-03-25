@@ -69,7 +69,7 @@ export default function ShopClient({
                   All ({totalProductsCount})
                 </span>
               </button>
-              {collections.map(collection => (
+              {collections.filter(c => c.slug?.current).map(collection => (
                 <button
                   key={collection.slug.current}
                   onClick={() =>

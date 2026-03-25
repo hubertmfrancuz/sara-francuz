@@ -1,19 +1,11 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useCart } from "@/app/context/CartContext"
+import { createShopifyCart } from "@/lib/shopify"
 
-interface ContactInfo {
-  contactEmail: string
-  instagramHandle: string
-}
-
-interface CartProps {
-  contactInfo: ContactInfo
-}
-
-export default function Cart({ contactInfo }: CartProps) {
+export default function Cart() {
   const {
     items,
     removeItem,
@@ -22,6 +14,9 @@ export default function Cart({ contactInfo }: CartProps) {
     isCartOpen,
     closeCart,
   } = useCart()
+
+  const [isCheckingOut, setIsCheckingOut] = useState(false)
+  const [checkoutError, setCheckoutError] = useState<string | null>(null)
 
   const customEase = [0.65, 0.05, 0.36, 1] as const
 
@@ -37,24 +32,16 @@ export default function Cart({ contactInfo }: CartProps) {
     }
   }, [isCartOpen])
 
-  const generateMailtoLink = () => {
-    const subject = "Inquiry from Sara Francuz Shop"
-    let body =
-      "Hello,\n\nI would like to inquire about the following items:\n\n"
-
-    items.forEach((item, index) => {
-      body += `${index + 1}. ${item.title} x${item.quantity}, ${(item.price * item.quantity).toFixed(2)} PLN\n`
-    })
-
-    const total = items.reduce(
-      (sum, item) => sum + item.price * item.quantity,
-      0
-    )
-    body += `\nTotal: ${total.toFixed(2)} PLN\n\n`
-    body +=
-      "Please let me know about availability and next steps.\n\nThank you!"
-
-    return `mailto:${contactInfo.contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+  const handleCheckout = async () => {
+    setIsCheckingOut(true)
+    setCheckoutError(null)
+    try {
+      const checkoutUrl = await createShopifyCart(items)
+      window.location.href = checkoutUrl
+    } catch (err) {
+      setCheckoutError(err instanceof Error ? err.message : 'Checkout failed. Please try again.')
+      setIsCheckingOut(false)
+    }
   }
 
   return (
@@ -159,15 +146,21 @@ export default function Cart({ contactInfo }: CartProps) {
                 )}
               </div>
 
-              {/* Send Inquiry Button */}
+              {/* Checkout Button */}
               {items.length > 0 && (
                 <div className='px-400 py-400'>
-                  <a
-                    href={generateMailtoLink()}
-                    className='block w-full py-400 text-center text-cutive font-cutive transition-all hover:bg-graphite-900 hover:text-yellow-100 cursor-pointer'
+                  {checkoutError && (
+                    <p className='mb-200 text-center text-cutive font-cutive text-red-600 text-sm'>
+                      {checkoutError}
+                    </p>
+                  )}
+                  <button
+                    onClick={handleCheckout}
+                    disabled={isCheckingOut}
+                    className='block w-full py-400 text-center text-cutive font-cutive transition-all hover:bg-graphite-900 hover:text-yellow-100 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
                   >
-                    | SEND INQUIRY
-                  </a>
+                    {isCheckingOut ? '| REDIRECTING...' : '| CHECKOUT'}
+                  </button>
                 </div>
               )}
             </div>

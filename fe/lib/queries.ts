@@ -33,6 +33,9 @@ export const homePageQuery = groq`
       buttonText,
       linkType,
       url,
+      video {
+        asset-> { url }
+      },
       image {
         asset-> {
           ...,
@@ -53,13 +56,43 @@ export const homePageQuery = groq`
       size,
       alignment,
       orientation,
-      mobileAlignment
+      mobileAlignment,
+      _type == 'imageGridBlock' => {
+        columns,
+        items[] {
+          _type,
+          _key,
+          title,
+          video {
+            asset-> { url }
+          },
+          image {
+            asset-> {
+              ...,
+              metadata { lqip }
+            },
+            hotspot,
+            crop,
+            alt
+          },
+          buttonText,
+          linkType,
+          url,
+          productReference-> { handle },
+          collectionReference-> { slug },
+          size,
+          alignment,
+          orientation,
+          mobileAlignment
+        }
+      }
     },
     featuredProducts[]-> {
       _id,
-      title,
+      "title": coalesce(store.title, title),
       handle,
-      price,
+      "price": coalesce(store.priceRange.minVariantPrice, 0),
+      "shopifyVariantId": store.variants[0]->.store.gid,
       images[] {
         asset-> {
           ...,
@@ -78,18 +111,19 @@ export const homePageQuery = groq`
 `
 
 export const collectionsQuery = groq`
-  *[_type == "collection"] | order(order asc) {
+  *[_type == "collection" && defined(slug.current)] | order(order asc) {
     title,
     slug
   }
 `
 
 export const productsQuery = groq`
-  *[_type == "product"] | order(order asc) {
+  *[_type == "product" && defined(handle.current)] | order(order asc) {
     _id,
-    title,
+    "title": coalesce(store.title, title),
     handle,
-    price,
+    "price": coalesce(store.priceRange.minVariantPrice, 0),
+    "shopifyVariantId": store.variants[0]->.store.gid,
     images[] {
       asset-> {
         ...
@@ -104,11 +138,12 @@ export const productsQuery = groq`
 `
 
 export const productsByCollectionQuery = groq`
-  *[_type == "product" && collection->slug.current == $collectionSlug] | order(order asc) {
+  *[_type == "product" && defined(handle.current) && collection->slug.current == $collectionSlug] | order(order asc) {
     _id,
-    title,
+    "title": coalesce(store.title, title),
     handle,
-    price,
+    "price": coalesce(store.priceRange.minVariantPrice, 0),
+    "shopifyVariantId": store.variants[0]->.store.gid,
     images[] {
       asset-> {
         ...
@@ -125,9 +160,10 @@ export const productsByCollectionQuery = groq`
 export const productQuery = groq`
   *[_type == "product" && handle.current == $handle][0] {
     _id,
-    title,
+    "title": coalesce(store.title, title),
     handle,
-    price,
+    "price": coalesce(store.priceRange.minVariantPrice, 0),
+    "shopifyVariantId": store.variants[0]->.store.gid,
     images[] {
       asset-> {
         ...
@@ -150,9 +186,10 @@ export const productQuery = groq`
 export const relatedProductsQuery = groq`
   *[_type == "product" && collection->slug.current == $collectionSlug && handle.current != $handle] | order(order asc) [0...4] {
     _id,
-    title,
+    "title": coalesce(store.title, title),
     handle,
-    price,
+    "price": coalesce(store.priceRange.minVariantPrice, 0),
+    "shopifyVariantId": store.variants[0]->.store.gid,
     images[] {
       asset-> {
         ...
@@ -164,7 +201,7 @@ export const relatedProductsQuery = groq`
 
 export const collectionProductCountsQuery = groq`
   {
-    "collections": *[_type == "collection"] | order(order asc) {
+    "collections": *[_type == "collection" && defined(slug.current)] | order(order asc) {
       title,
       slug,
       "count": count(*[_type == "product" && references(^._id)])
@@ -284,11 +321,12 @@ export const collectionDetailQuery = groq`
     title,
     description,
     slug,
-    "products": *[_type == "product" && references(^._id)] {
+    "products": *[_type == "product" && defined(handle.current) && references(^._id)] {
       _id,
-      title,
+      "title": coalesce(store.title, title),
       handle,
-      price,
+      "price": coalesce(store.priceRange.minVariantPrice, 0),
+      "shopifyVariantId": store.variants[0]->.store.gid,
       images[] {
         asset-> {
           ...,
@@ -326,9 +364,10 @@ export const collectionDetailQuery = groq`
     },
     featuredProducts[]-> {
       _id,
-      title,
+      "title": coalesce(store.title, title),
       handle,
-      price,
+      "price": coalesce(store.priceRange.minVariantPrice, 0),
+      "shopifyVariantId": store.variants[0]->.store.gid,
       images[] {
         asset-> {
           ...,

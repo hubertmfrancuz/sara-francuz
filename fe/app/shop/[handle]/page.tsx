@@ -38,9 +38,11 @@ export async function generateMetadata({
 export async function generateStaticParams() {
   const products: Product[] = await client.fetch(productsQuery)
 
-  return products.map((product) => ({
-    handle: product.handle.current,
-  }))
+  return products
+    .filter((product) => product.handle?.current)
+    .map((product) => ({
+      handle: product.handle.current,
+    }))
 }
 
 export default async function ProductPage({

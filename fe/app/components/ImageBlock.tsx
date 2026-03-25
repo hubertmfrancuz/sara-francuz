@@ -24,14 +24,27 @@ export default function ImageBlock({ block }: ImageBlockProps) {
   return (
     <div className={cardClasses}>
       <ViewTransitionLink href={href} className='group block'>
-        {/* Image */}
+        {/* Media */}
         <div className={`featured-card-image ${block.orientation} relative w-full overflow-hidden mb-400`}>
-          <ImageWithFade
-            src={urlFor(block.image).url()}
-            alt={block.image.alt || block.title}
-            fill
-            className='object-cover transition-opacity duration-300 group-hover:opacity-50'
-          />
+          {block.video?.asset?.url ? (
+            <video
+              src={block.video.asset.url}
+              autoPlay
+              loop
+              muted
+              playsInline
+              disablePictureInPicture
+              className='absolute inset-0 w-full h-full object-cover pointer-events-none'
+            />
+          ) : (
+            <ImageWithFade
+              src={urlFor(block.image).url()}
+              alt={block.image.alt || block.title}
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className='object-cover transition-opacity duration-300 group-hover:opacity-50'
+            />
+          )}
         </div>
 
         {/* Content */}

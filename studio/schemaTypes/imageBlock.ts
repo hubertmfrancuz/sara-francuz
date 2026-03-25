@@ -12,6 +12,15 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'video',
+      title: 'Video (mp4 loop)',
+      type: 'file',
+      options: {
+        accept: 'video/mp4,video/*',
+      },
+      description: 'If set, the video will autoplay in a loop instead of the image',
+    },
+    {
       name: 'image',
       title: 'Image',
       type: 'image',
@@ -25,7 +34,12 @@ export default defineType({
           title: 'Alternative text',
         },
       ],
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) =>
+        Rule.custom((image, context) => {
+          const video = (context.parent as any)?.video
+          if (!image && !video) return 'Either an image or a video is required'
+          return true
+        }),
     },
     {
       name: 'buttonText',

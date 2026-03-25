@@ -14,6 +14,7 @@ export interface CartItem {
   price: number
   quantity: number
   handle: string
+  shopifyVariantId?: string
 }
 
 interface CartContextType {

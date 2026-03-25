@@ -91,7 +91,7 @@ export default function ClientLayout({
       </AnimatePresence>
 
       {/* Cart Drawer */}
-      <Cart contactInfo={contactInfo} />
+      <Cart />
     </>
   )
 }

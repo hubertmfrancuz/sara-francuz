@@ -13,6 +13,8 @@ import projectCategory from './projectCategory'
 import project from './project'
 import collectionTextBlock from './collectionTextBlock'
 import collectionImageBlock from './collectionImageBlock'
+import imageGridBlock from './imageGridBlock'
+import shopifyProductVariant from './shopifyProductVariant'
 
 export const schemaTypes = [
   hero,
@@ -30,4 +32,6 @@ export const schemaTypes = [
   project,
   collectionTextBlock,
   collectionImageBlock,
+  imageGridBlock,
+  shopifyProductVariant,
 ]

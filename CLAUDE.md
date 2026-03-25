@@ -4,87 +4,75 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a monorepo containing two separate applications:
-- **fe/**: Next.js 16 frontend application with React 19, TypeScript, and Tailwind CSS v4
-- **studio/**: Sanity CMS v4 content studio for content management
-
-The frontend and CMS are separate but designed to work together, with the frontend consuming content from the Sanity backend.
+Portfolio and e-commerce site for Sara Francuz (object/spatial designer). Monorepo with two apps:
+- **fe/**: Next.js 16 frontend (React 19, TypeScript, Tailwind CSS v4)
+- **studio/**: Sanity CMS v4 content studio
 
 ## Development Commands
 
 ### Frontend (fe/)
 ```bash
 cd fe
-npm run dev      # Start development server on http://localhost:3000
-npm run build    # Build for production
-npm run start    # Start production server
-npm run lint     # Run ESLint
+npm run dev      # Dev server on http://localhost:3000
+npm run build    # Production build
+npm run lint     # ESLint
 ```
 
 ### Sanity Studio (studio/)
 ```bash
 cd studio
-npm run dev      # Start Sanity Studio dev server (default: http://localhost:3333)
-npm run build    # Build the studio
-npm run deploy   # Deploy studio to Sanity's hosted environment
-npm run deploy-graphql  # Deploy GraphQL schema to Sanity
+npm run dev      # Studio on http://localhost:3333
+npm run build    # Build studio
+npm run deploy   # Deploy to Sanity hosting
+npm run deploy-graphql  # Deploy GraphQL schema (run after schema changes)
 ```
 
-## Project Structure
+## Architecture
 
-### Frontend Architecture (fe/)
-- **Framework**: Next.js 16 with App Router
-- **React Version**: 19.2.0 (using new JSX runtime: `react-jsx`)
-- **Styling**: Tailwind CSS v4 with PostCSS
-- **TypeScript**: Strict mode enabled, module resolution set to "bundler"
-- **Path Aliases**: `@/*` maps to the root directory
-- **App Structure**:
-  - `app/` - App Router pages and layouts
-  - `app/layout.tsx` - Root layout component
-  - `app/page.tsx` - Home page
-  - `app/globals.css` - Global styles with Tailwind directives
-  - `public/` - Static assets
+### Data Flow: Sanity -> Frontend
+1. Content schemas defined in `studio/schemaTypes/` and registered in `studio/schemaTypes/index.ts`
+2. Frontend queries Sanity via `next-sanity` client (`fe/lib/sanity.ts`) using GROQ queries (`fe/lib/queries.ts`)
+3. TypeScript interfaces for all Sanity data in `fe/lib/types.ts`
+4. Images served via `cdn.sanity.io`, built with `@sanity/image-url` helper (`urlFor()` in `fe/lib/sanity.ts`)
 
-### Sanity Studio Architecture (studio/)
-- **CMS**: Sanity v4.14.2
-- **Project Config**:
-  - Project ID: `vs7tkh7i`
-  - Dataset: `production`
-- **Plugins**:
-  - `structureTool` - Content structure management
-  - `visionTool` - GraphQL/GROQ query testing
-- **Schema**: Define content types in `schemaTypes/` directory
-  - Currently empty (`schemaTypes/index.ts` exports empty array)
-  - Add new schema types to this array as you build content models
-- **Prettier Config**: Semi-colons disabled, single quotes, 100 char width, no bracket spacing
+### Environment Variables (fe/)
+Required env vars (configured externally, not committed):
+- `NEXT_PUBLIC_SANITY_PROJECT_ID` — Sanity project ID (`vs7tkh7i`)
+- `NEXT_PUBLIC_SANITY_DATASET` — Sanity dataset (`production`)
+- `NEXT_PUBLIC_SANITY_API_VERSION` — Sanity API version
+- `REVALIDATE_SECRET` — Secret for webhook-based revalidation
 
-## Key Technical Details
+### Caching & Revalidation Strategy
+- Pages use ISR with `revalidate = 3600` (1 hour) as default
+- Layout-level data (collections, contact info) cached for 24 hours
+- On-demand revalidation via webhook at `POST /api/revalidate` (authenticated with `REVALIDATE_SECRET`)
+- Cache tags per content type: `home-page`, `about-page`, `faq-page`, `products`, `collections`, `collection-detail`, `projects`, `projectCategories`
 
-### TypeScript Configuration
-- Both projects use ES2017 target with strict mode
-- Frontend uses Next.js TypeScript plugin for enhanced type checking
-- Studio uses module preservation for Sanity compatibility
+### Frontend Page Pattern
+Pages follow a server/client component split:
+- **Server components** (page.tsx): fetch data from Sanity, generate metadata, pass data as props
+- **Client components** (*Client.tsx): handle interactivity, filtering, animations
+- Example: `fe/app/shop/page.tsx` (server) -> `fe/app/shop/ShopClient.tsx` (client)
 
-### Styling (Frontend)
-- Tailwind CSS v4 (latest major version)
-- Uses new `@tailwindcss/postcss` plugin
-- Global styles in `app/globals.css`
+### Key Frontend Patterns
+- **Animations**: Framer Motion throughout — loading screen, page transitions, fade-in effects
+- **Navigation**: Custom `ViewTransitionLink` component wraps Next.js Link with transition overlay
+- **Cart**: Client-side only via React Context (`CartContext`), persisted to localStorage
+- **Layout**: `ClientLayout` wraps all pages with Header, Footer, Cart drawer, loading screen, and navigation overlay
+- **Fonts**: Custom local font "Herbik" (`--font-herbik`) + Google "Cutive Mono" (`--font-cutive-mono`)
+- **Maintenance mode**: Toggle via `MAINTENANCE_MODE` flag in `fe/middleware.ts`
 
-### Content Management Flow
-1. Define content schemas in `studio/schemaTypes/`
-2. Run Sanity Studio to manage content
-3. Query content from frontend using Sanity client (needs to be implemented)
+### Sanity Schema Types
+Document types: `homePage`, `aboutPage`, `faqPage`, `collection`, `product`, `project`, `projectCategory`
+Reusable object types: `hero`, `contentBlock`, `featuredCollection`, `imageBlock`, `textBlock`, `featuredCollectionBlock`, `collectionTextBlock`, `collectionImageBlock`
 
-## Working with Schemas
+### Adding a New Content Type
+1. Create schema file in `studio/schemaTypes/`
+2. Import and add to array in `studio/schemaTypes/index.ts`
+3. Add GROQ query in `fe/lib/queries.ts`
+4. Add TypeScript interface in `fe/lib/types.ts`
+5. Add revalidation case in `fe/app/api/revalidate/route.ts`
+6. Run `npm run deploy-graphql` in studio/
 
-When adding content types to Sanity:
-1. Create schema files in `studio/schemaTypes/`
-2. Import and add to the `schemaTypes` array in `studio/schemaTypes/index.ts`
-3. Schema types follow Sanity's schema definition format
-4. After schema changes, consider running `npm run deploy-graphql` to update the GraphQL API
-
-## Deployment
-
-- **Frontend**: Standard Next.js deployment (Vercel recommended)
-- **Studio**: Use `npm run deploy` in studio/ to deploy to Sanity's hosted platform
-- The Studio can be self-hosted or use Sanity's hosting
+### Studio Code Style
+Prettier: no semicolons, single quotes, 100 char width, no bracket spacing
