@@ -155,13 +155,37 @@ export interface Product {
   shopifyVariantId?: string
 }
 
-export interface ShopifyCartCreateResponse {
-  data: {
-    cartCreate: {
-      cart: { checkoutUrl: string }
-      userErrors: { field: string[]; message: string }[]
+export interface ShopifyCartLine {
+  id: string
+  quantity: number
+  merchandise: {
+    id: string
+    title: string
+    product: {
+      title: string
+      handle: string
+    }
+    price: {
+      amount: string
+      currencyCode: string
     }
   }
+}
+
+export interface ShopifyCart {
+  id: string
+  checkoutUrl: string
+  totalQuantity: number
+  lines: {
+    edges: { node: ShopifyCartLine }[]
+  }
+}
+
+export interface ShopifyCartResponse {
+  data: Record<string, {
+    cart: ShopifyCart
+    userErrors: { field: string[]; message: string }[]
+  }>
   errors?: { message: string }[]
 }
 
