@@ -144,6 +144,7 @@ export default function ProjectsClient({
                         src={urlFor(project.mainImage).url()}
                         alt={project.mainImage.alt || project.title}
                         fill
+                        sizes="(max-width: 768px) 140px, 208px"
                         lqip={project.mainImage.asset?.metadata?.lqip}
                         className='object-cover'
                       />

@@ -20,7 +20,8 @@ export default function ProductClient({
 }: ProductClientProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [openSection, setOpenSection] = useState<'details' | 'care' | null>('details')
-  const { addItem, openCart } = useCart()
+  const { addItem, isLoading, openCart } = useCart()
+  const [isAdding, setIsAdding] = useState(false)
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true })
 
   const onSelect = useCallback(() => {
@@ -37,14 +38,15 @@ export default function ProductClient({
     }
   }, [emblaApi, onSelect])
 
-  const handleAddToInquiry = () => {
-    addItem({
-      _id: product._id,
-      title: product.title,
-      price: product.price,
-      handle: product.handle.current,
-    })
-    openCart()
+  const handleAddToInquiry = async () => {
+    if (!product.shopifyVariantId || isAdding) return
+    setIsAdding(true)
+    try {
+      await addItem(product.shopifyVariantId)
+      openCart()
+    } finally {
+      setIsAdding(false)
+    }
   }
 
   return (
@@ -107,9 +109,10 @@ export default function ProductClient({
               {/* Add to Inquiry Button */}
               <button
                 onClick={handleAddToInquiry}
-                className='mt-600 flex justify-between py-400 px-400 w-full text-left text-cutive font-cutive bg-yellow-200 transition-all hover:bg-yellow-300 cursor-pointer'
+                disabled={isAdding || !product.shopifyVariantId}
+                className='mt-600 flex justify-between py-400 px-400 w-full text-left text-cutive font-cutive bg-yellow-200 transition-all hover:bg-yellow-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
               >
-                <span>| ADD TO INQUIRY +</span>
+                <span>{isAdding ? '| ADDING...' : '| ADD TO CART +'}</span>
                 <span>{product.price.toFixed(2)} PLN</span>
               </button>
             </div>
@@ -194,6 +197,7 @@ export default function ProductClient({
                           src={urlFor(image).url()}
                           alt={image.alt || product.title}
                           fill
+                          sizes="(max-width: 768px) 100vw, 50vw"
                           className='object-cover'
                           priority={index < 2}
                         />
@@ -231,6 +235,7 @@ export default function ProductClient({
                         src={urlFor(image).url()}
                         alt={image.alt || product.title}
                         fill
+                        sizes={isFullWidth ? '58vw' : '29vw'}
                         className='object-cover'
                         priority={index === 0}
                       />
@@ -272,6 +277,7 @@ export default function ProductClient({
                               src={urlFor(relatedProduct.images[0]).url()}
                               alt={relatedProduct.images[0].alt || relatedProduct.title}
                               fill
+                              sizes="80vw"
                               className='object-cover transition-opacity duration-300 group-hover:opacity-80'
                             />
                           )}
@@ -305,6 +311,7 @@ export default function ProductClient({
                           src={urlFor(relatedProduct.images[0]).url()}
                           alt={relatedProduct.images[0].alt || relatedProduct.title}
                           fill
+                          sizes="140px"
                           className='object-cover transition-opacity duration-300 group-hover:opacity-80'
                         />
                       )}

@@ -85,7 +85,7 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
               ease: customEase,
               opacity: { duration: 0.1, delay: 0.4 },
             }}
-            className='text-herbik-lg z-[102]'
+            className='z-[102] font-[family-name:var(--font-dm-sans)] font-light text-[21px]'
           >
             Sara Francuz
           </motion.h1>

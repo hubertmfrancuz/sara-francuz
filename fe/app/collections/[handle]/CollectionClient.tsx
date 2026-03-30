@@ -16,7 +16,7 @@ export default function CollectionClient({ collectionDetail }: CollectionClientP
   const productCount = collectionDetail.products?.length || 0
 
   return (
-    <div className='min-h-screen pt-[104px] pb-1000 px-400 md:px-0'>
+    <div className='min-h-screen pt-[104px] pb-1000 px-600 md:px-0'>
       {/* Header Section */}
       <div className='max-w-[850px] mx-auto mb-1000 text-center'>
         <h1 className='text-herbik-xl md:text-herbik-2xl italic leading-1 mb-400'>
@@ -65,10 +65,10 @@ export default function CollectionClient({ collectionDetail }: CollectionClientP
           </h2>
 
           {/* Mobile: Slider */}
-          <div className='md:hidden -mx-400'>
+          <div className='md:hidden -mx-600'>
             <div
-              className='scrollbar-hide w-full snap-x snap-mandatory overflow-y-hidden overflow-x-scroll whitespace-nowrap px-400'
-              style={{ scrollPaddingLeft: '16px', scrollPaddingRight: '16px' }}
+              className='scrollbar-hide w-full snap-x snap-mandatory overflow-y-hidden overflow-x-scroll whitespace-nowrap px-600'
+              style={{ scrollPaddingLeft: '32px', scrollPaddingRight: '32px' }}
             >
               {collectionDetail.featuredProducts.map((product) => (
                 <div
@@ -86,6 +86,7 @@ export default function CollectionClient({ collectionDetail }: CollectionClientP
                           src={urlFor(product.images[0]).url()}
                           alt={product.images[0].alt || product.title}
                           fill
+                          sizes="80vw"
                           lqip={product.images[0].asset?.metadata?.lqip}
                           className='object-cover transition-opacity duration-300 group-hover:opacity-80'
                         />
@@ -120,6 +121,7 @@ export default function CollectionClient({ collectionDetail }: CollectionClientP
                       src={urlFor(product.images[0]).url()}
                       alt={product.images[0].alt || product.title}
                       fill
+                      sizes="140px"
                       className='object-cover transition-opacity duration-300 group-hover:opacity-80'
                     />
                   )}

@@ -9,8 +9,7 @@ export default defineType({
       name: 'title',
       title: 'Product Title',
       type: 'string',
-      description: 'Product name (e.g., "Pillar 0503", "Bombi 01")',
-      validation: (Rule) => Rule.required(),
+      description: 'Product name (e.g., "Pillar 0503", "Bombi 01") — leave blank if synced from Shopify',
     },
     {
       name: 'handle',
@@ -30,13 +29,6 @@ export default defineType({
       to: [{type: 'collection'}],
       description: 'Which collection this product belongs to',
       validation: (Rule) => Rule.required(),
-    },
-    {
-      name: 'price',
-      title: 'Price',
-      type: 'number',
-      description: 'Price in PLN (e.g., 399.00)',
-      validation: (Rule) => Rule.required().positive(),
     },
     {
       name: 'images',
@@ -110,6 +102,62 @@ export default defineType({
       description: 'Product care and maintenance instructions',
     },
     {
+      name: 'store',
+      title: 'Shopify data',
+      type: 'object',
+      description: 'Managed by Sanity Connect — do not edit manually',
+      options: {collapsible: true, collapsed: true},
+      fields: [
+        {name: 'gid', type: 'string', title: 'GID'},
+        {name: 'id', type: 'number', title: 'ID'},
+        {name: 'title', type: 'string', title: 'Title'},
+        {name: 'slug', type: 'slug', title: 'Slug'},
+        {name: 'descriptionHtml', type: 'text', title: 'Description HTML'},
+        {name: 'vendor', type: 'string', title: 'Vendor'},
+        {name: 'productType', type: 'string', title: 'Product type'},
+        {name: 'tags', type: 'string', title: 'Tags'},
+        {name: 'status', type: 'string', title: 'Status'},
+        {name: 'isDeleted', type: 'boolean', title: 'Is deleted'},
+        {name: 'createdAt', type: 'datetime', title: 'Created at'},
+        {
+          name: 'priceRange',
+          type: 'object',
+          title: 'Price range',
+          fields: [
+            {name: 'minVariantPrice', type: 'number', title: 'Min variant price'},
+            {name: 'maxVariantPrice', type: 'number', title: 'Max variant price'},
+          ],
+        },
+        {
+          name: 'options',
+          type: 'array',
+          title: 'Options',
+          of: [
+            {
+              type: 'object',
+              name: 'option',
+              fields: [
+                {name: 'name', type: 'string'},
+                {name: 'values', type: 'array', of: [{type: 'string'}]},
+              ],
+            },
+          ],
+        },
+        {
+          name: 'variants',
+          type: 'array',
+          title: 'Variants',
+          of: [{type: 'reference', to: [{type: 'productVariant'}], weak: true}],
+        },
+        {
+          name: 'shop',
+          type: 'object',
+          title: 'Shop',
+          fields: [{name: 'domain', type: 'string'}],
+        },
+      ],
+    },
+    {
       name: 'order',
       title: 'Display Order',
       type: 'number',
@@ -137,14 +185,17 @@ export default defineType({
   preview: {
     select: {
       title: 'title',
+      storeTitle: 'store.title',
       subtitle: 'collection.title',
       media: 'images.0',
-      price: 'price',
+      storePrice: 'store.priceRange.minVariantPrice',
     },
-    prepare({title, subtitle, media, price}) {
+    prepare({title, storeTitle, subtitle, media, storePrice}) {
+      const displayTitle = title || storeTitle || 'Untitled'
+      const displayPrice = storePrice
       return {
-        title: title,
-        subtitle: `${subtitle} - ${price?.toFixed(2)} PLN`,
+        title: displayTitle,
+        subtitle: `${subtitle ?? ''} - ${displayPrice?.toFixed(2) ?? '?'} PLN`,
         media: media,
       }
     },

@@ -56,7 +56,6 @@ export default function ProductCard({ product, index }: ProductCardProps) {
               placeholder={product.images[0].asset?.metadata?.lqip ? 'blur' : 'empty'}
               blurDataURL={product.images[0].asset?.metadata?.lqip}
               onLoad={() => setIsImageLoaded(true)}
-              onLoadingComplete={() => setIsImageLoaded(true)}
               className={`object-cover transition-opacity duration-700 ease-out ${
                 isImageLoaded ? 'opacity-100' : 'opacity-0'
               }`}

@@ -48,6 +48,7 @@ export interface ContentBlock {
 export interface ImageBlock {
   _type: 'imageBlock'
   title: string
+  video?: { asset: { url: string } }
   image: SanityImage
   buttonText: string
   linkType: 'url' | 'product' | 'collection'
@@ -93,7 +94,13 @@ export interface FeaturedCollectionBlock {
   products: Product[]
 }
 
-export type EditorialBlock = ImageBlock | TextBlock
+export interface ImageGridBlock {
+  _type: 'imageGridBlock'
+  columns: 2 | 3 | 4
+  items: ImageBlock[]
+}
+
+export type EditorialBlock = ImageBlock | TextBlock | ImageGridBlock
 
 export interface SEO {
   metaTitle?: string
@@ -145,6 +152,41 @@ export interface Product {
   properties?: ProductProperty[]
   description?: string
   careInstructions?: string
+  shopifyVariantId?: string
+}
+
+export interface ShopifyCartLine {
+  id: string
+  quantity: number
+  merchandise: {
+    id: string
+    title: string
+    product: {
+      title: string
+      handle: string
+    }
+    price: {
+      amount: string
+      currencyCode: string
+    }
+  }
+}
+
+export interface ShopifyCart {
+  id: string
+  checkoutUrl: string
+  totalQuantity: number
+  lines: {
+    edges: { node: ShopifyCartLine }[]
+  }
+}
+
+export interface ShopifyCartResponse {
+  data: Record<string, {
+    cart: ShopifyCart
+    userErrors: { field: string[]; message: string }[]
+  }>
+  errors?: { message: string }[]
 }
 
 export interface ContactInfo {
