@@ -8,7 +8,7 @@ export default defineConfig({
   title: 'sara-francuz',
 
   projectId: 'vs7tkh7i',
-  dataset: 'development',
+  dataset: 'production',
 
   plugins: [structureTool(), visionTool()],
 
