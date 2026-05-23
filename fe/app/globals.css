@@ -11,13 +11,11 @@
 
   /* Font sizes - Herbik */
   --font-size-herbik-sm: 13px;
-  /* 13px */
+  --font-size-herbik-md: 15px;
   --font-size-herbik-base: 18px;
-  /* 18px */
   --font-size-herbik-lg: 21px;
-  /* 21px */
   --font-size-herbik-xl: 28px;
-  /* 28px */
+  --font-size-herbik-2xl: 36px;
 
   /* Font sizes - Cutive Mono */
   --font-size-cutive: 12px;
@@ -84,25 +82,31 @@ body {
 .text-herbik-sm {
   font-size: var(--font-size-herbik-sm);
   line-height: 1.2;
-  /* 13px */
+}
+
+.text-herbik-md {
+  font-size: var(--font-size-herbik-md);
+  line-height: 1.2;
 }
 
 .text-herbik-base {
   font-size: var(--font-size-herbik-base);
   line-height: 1.2;
-  /* 18px */
 }
 
 .text-herbik-lg {
   font-size: var(--font-size-herbik-lg);
   line-height: 1.2;
-  /* 21px */
 }
 
 .text-herbik-xl {
   font-size: var(--font-size-herbik-xl);
   line-height: 1.2;
-  /* 28px */
+}
+
+.text-herbik-2xl {
+  font-size: var(--font-size-herbik-2xl);
+  line-height: 1.2;
 }
 
 /* Font size utility - Cutive Mono */
