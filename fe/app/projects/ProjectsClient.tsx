@@ -61,6 +61,19 @@ export default function ProjectsClient({
     setSelectedCategory(slug)
   }
 
+  if (projects.length === 0) {
+    return (
+      <div className='min-h-screen pb-1000 pt-[80px] md:pt-[104px]'>
+        <PageLayout pattern="with-sidebar" className='px-400 md:px-0'>
+          <div className='sidebar mb-800 md:mb-0' />
+          <div className='py-1000 text-center'>
+            <p className='text-herbik-base italic'>Coming soon.</p>
+          </div>
+        </PageLayout>
+      </div>
+    )
+  }
+
   return (
     <div className='min-h-screen pb-1000 pt-[80px] md:pt-[104px]'>
       <PageLayout pattern="with-sidebar" className='px-400 md:px-0'>

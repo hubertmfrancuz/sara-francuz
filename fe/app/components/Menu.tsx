@@ -229,13 +229,13 @@ export default function Menu({ isOpen, onClose, collections, contactInfo }: Menu
                   <p className='mb-400 font-cutive text-cutive uppercase tracking-wide'>
                     Contact
                   </p>
-                  <p className='text-herbik-base leading-400'>
+                  <p className='font-cutive text-cutive leading-400'>
                     Email:{" "}
                     <a href={`mailto:${contactInfo.contactEmail}`} className=''>
                       {contactInfo.contactEmail}
                     </a>
                   </p>
-                  <p className='text-herbik-base'>
+                  <p className='font-cutive text-cutive'>
                     Instagram:{" "}
                     <a
                       href={`https://instagram.com/${contactInfo.instagramHandle}`}

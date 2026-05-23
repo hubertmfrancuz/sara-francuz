@@ -51,7 +51,7 @@ export default function Footer({ collections, contactInfo }: FooterProps) {
         </nav>
 
         {/* Copyright */}
-        <p className='text-herbik-sm font-herbik'>Sara Francuz © 2025</p>
+        <p className='text-herbik-sm font-herbik'>Sara Francuz © {new Date().getFullYear()}</p>
       </div>
     </footer>
   )

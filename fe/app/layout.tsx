@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import {herbik, cutiveMono, dmSans} from "@/lib/fonts";
+import {herbik, dmSans} from "@/lib/fonts";
 import {client} from "@/lib/sanity";
 import {collectionsQuery, contactInfoQuery} from "@/lib/queries";
 import {Collection, ContactInfo} from "@/lib/types";
@@ -38,8 +38,11 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <link rel="stylesheet" href="https://use.typekit.net/hzt7dsz.css" />
+      </head>
       <body
-        className={`${herbik.variable} ${cutiveMono.variable} ${dmSans.variable} antialiased`}
+        className={`${herbik.variable} ${dmSans.variable} antialiased`}
       >
         <CartProvider>
           <ClientLayout collections={collections} contactInfo={contactInfo}>

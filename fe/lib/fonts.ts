@@ -1,5 +1,5 @@
 import localFont from "next/font/local"
-import { Cutive_Mono, DM_Sans } from "next/font/google"
+import { DM_Sans } from "next/font/google"
 
 export const herbik = localFont({
   src: [
@@ -22,12 +22,5 @@ export const dmSans = DM_Sans({
   weight: "300",
   subsets: ["latin"],
   variable: "--font-dm-sans",
-  display: "swap",
-})
-
-export const cutiveMono = Cutive_Mono({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-cutive-mono",
   display: "swap",
 })

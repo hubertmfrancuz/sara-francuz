@@ -76,7 +76,8 @@ body {
 }
 
 .font-cutive {
-  font-family: var(--font-cutive-mono), monospace;
+  font-family: "neue-haas-grotesk-display", sans-serif;
+  font-weight: 200;
 }
 
 /* Font size utilities - Herbik */
